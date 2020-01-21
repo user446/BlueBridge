@@ -1,0 +1,9 @@
+l452ceu\mmu_armca9.o: ../Drivers/ARM//Device/ARM/ARMCA9/Source/mmu_ARMCA9.c
+l452ceu\mmu_armca9.o: ../Drivers/ARM//Device/ARM/ARMCA9/Include/ARMCA9.h
+l452ceu\mmu_armca9.o: ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/core_ca.h
+l452ceu\mmu_armca9.o: ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/cmsis_compiler.h
+l452ceu\mmu_armca9.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+l452ceu\mmu_armca9.o: ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/cmsis_armcc.h
+l452ceu\mmu_armca9.o: ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/cmsis_cp15.h
+l452ceu\mmu_armca9.o: ../Drivers/ARM//Device/ARM/ARMCA9/Config/system_ARMCA9.h
+l452ceu\mmu_armca9.o: ../Drivers/ARM//Device/ARM/ARMCA9/Config/mem_ARMCA9.h

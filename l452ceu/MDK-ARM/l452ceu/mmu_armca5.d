@@ -1,0 +1,9 @@
+l452ceu\mmu_armca5.o: ../Drivers/ARM//Device/ARM/ARMCA5/Source/mmu_ARMCA5.c
+l452ceu\mmu_armca5.o: ../Drivers/ARM//Device/ARM/ARMCA5/Include/ARMCA5.h
+l452ceu\mmu_armca5.o: ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/core_ca.h
+l452ceu\mmu_armca5.o: ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/cmsis_compiler.h
+l452ceu\mmu_armca5.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+l452ceu\mmu_armca5.o: ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/cmsis_armcc.h
+l452ceu\mmu_armca5.o: ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/cmsis_cp15.h
+l452ceu\mmu_armca5.o: ../Drivers/ARM//Device/ARM/ARMCA5/Config/system_ARMCA5.h
+l452ceu\mmu_armca5.o: ../Drivers/ARM//Device/ARM/ARMCA5/Config/mem_ARMCA5.h
