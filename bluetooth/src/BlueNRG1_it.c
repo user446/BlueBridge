@@ -92,8 +92,9 @@ void SysTick_Handler(void)
 {
   SysCount_Handler();
 	
-	volatile uint8_t buffer_spi_head = 0;
-	  buffer_spi_head = SPI_BUFF_SIZE - DMA_GetCurrDataCounter(DMA_CH_SPI_RX);
+  volatile uint8_t buffer_spi_head = 0;
+
+  buffer_spi_head = SPI_BUFF_SIZE - DMA_GetCurrDataCounter(DMA_CH_SPI_RX);
   if(buffer_spi_head>=buffer_spi_tail)
     buffer_spi_used = buffer_spi_head - buffer_spi_tail;
   else

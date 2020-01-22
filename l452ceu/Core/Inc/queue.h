@@ -14,7 +14,7 @@ typedef struct Node
 {
 	struct Node* next; 				/// ссылка на следующий элемент
 	unsigned short len;				/// длина строки в элементе
-	unsigned char* string;		/// строка в элементе
+	unsigned char string[MAX_QLENGTH];		/// строка в элементе
 }Node;
 
 /**

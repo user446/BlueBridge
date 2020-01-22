@@ -58,12 +58,14 @@
 /* Private define ------------------------------------------------------------*/
 #define BLE_THROUGHPUT_VERSION_STRING "1.0.0" 
 #define BUFF_SIZE                   	(10)
+#define MAX_QLENGTH 128
 /* Private macro -------------------------------------------------------------*/
 extern uint16_t connection_handle;
 /* Private variables ---------------------------------------------------------*/
-uint8_t spi_buffer_tx[BUFF_SIZE];
-uint8_t spi_buffer_rx[BUFF_SIZE];
-uint8_t test_buff[] = {'h', 'e', 'l', 'l', 'o', '\r', '\n'};
+uint8_t spi_buffer_tx[MAX_QLENGTH];
+uint8_t spi_buffer_rx[MAX_QLENGTH];
+uint8_t test_buff[10] = {'h', 'e', 'l', 'l', 'o', '\r', '\n', 0x00, 0x00, 0x00};
+uint8_t command[MAX_QLENGTH];
 
 extern uint8_t buffer_spi_tail;
 extern volatile uint8_t buffer_spi_used;
@@ -73,7 +75,7 @@ Queue q_msg_to_txATT;
 
 /* Private function prototypes -----------------------------------------------*/
 struct timer t_updater;
-_Bool processSPI(Queue rx, Queue tx);
+_Bool processSPI();
 _Bool processAttributes(Queue rx, Queue tx);
 void send_test(void);
 
@@ -107,7 +109,7 @@ int main(void)
   SdkEvalComUartInit(UART_BAUDRATE);
 	
 	/* SPI initialization */
-	//SPI_Slave_Configuration();
+	SPI_Slave_Configuration();
 
   /* BlueNRG-1 stack init */
   ret = BlueNRG_Stack_Initialization(&BlueNRG_Stack_Init_params);
@@ -140,6 +142,8 @@ int main(void)
 		
 		/* Application tick */
     APP_Tick(send_test);
+		
+		processSPI();
   }
   
 } /* end main() */
@@ -147,10 +151,10 @@ int main(void)
 
 void send_test(void)
 {
-	if(Timer_Expired(&t_updater)){
-		APP_UpdateTX(test_buff, sizeof(test_buff[0])*7);
-		Timer_Restart(&t_updater);
-	}
+//	if(Timer_Expired(&t_updater)){
+//		APP_UpdateTX(test_buff, sizeof(test_buff[0])*7);
+//		Timer_Restart(&t_updater);
+//	}
 }
 //
 
@@ -165,25 +169,22 @@ _Bool processAttributes(Queue rx, Queue tx)
 * @param  None
 * @retval None
 */
-_Bool processSPI(Queue rx, Queue tx)
+uint8_t t = 0;
+volatile uint8_t i = 0;
+_Bool processSPI()
 {
-		unsigned short tx_string[MAX_LENGTH];
-		unsigned short tx_str_len = queue_get_frontl(&q_msg_from_rxATT);
-		queue_get_front(&q_msg_from_rxATT, tx_string, 0, tx_str_len);
-		
+    /* Get the LEDS actual status */
+   
     /* Prepare buffer to sent through SPI DMA TX channel */
-    DMASpi_Sending((uint32_t)&tx_string[0], tx_str_len*sizeof(tx_string[0]));
-		
-		queue_pop(&q_msg_from_rxATT);
+    DMASpi_Sending((uint32_t)&spi_buffer_tx[0], 10);
     
     while(buffer_spi_used==0);    
-	
-		//rx->digits =  spi_buffer_rx[buffer_spi_tail];
-		queue_push(&q_msg_to_txATT, (unsigned short*)spi_buffer_rx, buffer_spi_tail);
-		//memcpy(rx[nucleo_receive_cnt++].digits, spi_buffer_rx, buffer_spi_tail);
+    
+    /* Parse the command */
+    command[(i++)%MAX_QLENGTH] = spi_buffer_rx[buffer_spi_tail];
     
     buffer_spi_tail = (buffer_spi_tail+1)%SPI_BUFF_SIZE;    
-    buffer_spi_used--;
+    buffer_spi_used--;      
 }
 //
 
@@ -203,21 +204,21 @@ void SPI_Slave_Configuration(void)
   
   /* Configure SPI pins */
   GPIO_StructInit(&GPIO_InitStructure);
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;		//OUT
   GPIO_InitStructure.GPIO_Mode = Serial0_Mode;
   GPIO_InitStructure.GPIO_Pull = ENABLE;
   GPIO_InitStructure.GPIO_HighPwr = DISABLE;
   GPIO_Init(&GPIO_InitStructure);
   
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3;
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3; 	//IN
   GPIO_InitStructure.GPIO_Mode = Serial0_Mode;
   GPIO_Init(&GPIO_InitStructure);
   
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8; 	//CLOCK
   GPIO_InitStructure.GPIO_Mode = Serial0_Mode;
   GPIO_Init(&GPIO_InitStructure);
   
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11;
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11; 	//NSS
   GPIO_InitStructure.GPIO_Mode = Serial0_Mode;
   GPIO_Init(&GPIO_InitStructure);
   
@@ -227,13 +228,11 @@ void SPI_Slave_Configuration(void)
   SPI_InitStructure.SPI_DataSize = SPI_DataSize_8b ;
   SPI_InitStructure.SPI_CPOL = SPI_CPOL_Low;
   SPI_InitStructure.SPI_CPHA = SPI_CPHA_2Edge;
-  SPI_InitStructure.SPI_BaudRate = SPI_BAUDRATE;
   SPI_Init(&SPI_InitStructure);
 
   /* Clear RX and TX FIFO */
   SPI_ClearTXFIFO();
   SPI_ClearRXFIFO();
-  
   
   /* Configure DMA peripheral */
   SysCtrl_PeripheralClockCmd(CLOCK_PERIPH_DMA, ENABLE);

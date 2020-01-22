@@ -3,7 +3,7 @@
 <title>Static Call Graph - [l452ceu\l452ceu.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image l452ceu\l452ceu.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060422: Last Updated: Tue Jan 21 18:38:22 2020
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060422: Last Updated: Wed Jan 22 19:16:25 2020
 <BR><P>
 <H3>Maximum Stack Usage =        336 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -368,8 +368,8 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[112]"></a>__aeabi_memcpy</STRONG> (Thumb, 36 bytes, Stack size 0 bytes, memcpya.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;queue_push
-<LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;queue_get_front
+<BR><BR>[Called By]<UL><LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;queue_get_front
+<LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;queue_push
 </UL>
 
 <P><STRONG><a name="[a6]"></a>__aeabi_memcpy4</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memcpya.o(.text))
@@ -1529,16 +1529,10 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;queue_pop
 </UL>
 
-<P><STRONG><a name="[65]"></a>main</STRONG> (Thumb, 144 bytes, Stack size 0 bytes, main.o(i.main))
+<P><STRONG><a name="[65]"></a>main</STRONG> (Thumb, 136 bytes, Stack size 0 bytes, main.o(i.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 296<LI>Call Chain = main &rArr; SystemClock_Config &rArr; HAL_RCC_OscConfig &rArr; HAL_InitTick &rArr; HAL_NVIC_SetPriority &rArr; __NVIC_SetPriority
 </UL>
-<BR>[Calls]<UL><LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;queue_push
-<LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;queue_pop
-<LI><a href="#[10e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;queue_isempty
-<LI><a href="#[10d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;queue_init
-<LI><a href="#[10f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;queue_get_frontl
-<LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;queue_get_front
-<LI><a href="#[d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_USB_DEVICE_Init
+<BR>[Calls]<UL><LI><a href="#[d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_USB_DEVICE_Init
 <LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_SPI_Transmit_DMA
 <LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Init
 <LI><a href="#[ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
@@ -1548,6 +1542,12 @@ Global Symbols
 <LI><a href="#[cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_SPI1_Init
 <LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_GPIO_Init
 <LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_DMA_Init
+<LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;queue_pop
+<LI><a href="#[10e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;queue_isempty
+<LI><a href="#[10d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;queue_init
+<LI><a href="#[10f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;queue_get_frontl
+<LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;queue_get_front
+<LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;queue_push
 <LI><a href="#[ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> entry9a.o(.ARM.Collect$$$$0000000B)
@@ -1586,15 +1586,15 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[79]"></a>queue_push</STRONG> (Thumb, 144 bytes, Stack size 16 bytes, queue.o(i.queue_push))
+<P><STRONG><a name="[79]"></a>queue_push</STRONG> (Thumb, 122 bytes, Stack size 16 bytes, queue.o(i.queue_push))
 <BR><BR>[Stack]<UL><LI>Max Depth = 36<LI>Call Chain = queue_push &rArr; malloc
 </UL>
 <BR>[Calls]<UL><LI><a href="#[114]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;malloc
 <LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr
 <LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
 </UL>
-<BR>[Called By]<UL><LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Connection_RecieveCallback
-<LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<BR>[Called By]<UL><LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Connection_RecieveCallback
 </UL>
 <P>
 <H3>

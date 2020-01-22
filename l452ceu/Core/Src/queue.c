@@ -84,8 +84,8 @@ void queue_push(struct Queue* q, unsigned char* string, unsigned short len)
 	{
 		q->front = (struct Node*) malloc(sizeof(struct Node));
 		//q->front->string = (unsigned short*)malloc(len);
-		q->front->string = (unsigned char*)malloc(sizeof(unsigned char)*len);
-		memset(q->front->string, 0x00, len);
+		//q->front->string = (unsigned char*)malloc(sizeof(unsigned char)*MAX_QLENGTH);
+		memset(q->front->string, 0x00, MAX_QLENGTH);
 		memcpy(q->front->string, string, len);
 		q->front->len = len;
 		q->front->next = NULL;
@@ -95,8 +95,8 @@ void queue_push(struct Queue* q, unsigned char* string, unsigned short len)
 	{
 		q->last->next = (struct Node*) malloc(sizeof(struct Node));
 		//q->last->next->string = (unsigned short*)malloc(len);
-		q->last->next->string = (unsigned char*)malloc(sizeof(unsigned char)*len);
-		memset(q->last->next->string, 0x00, len);
+		//q->last->next->string = (unsigned char*)malloc(sizeof(unsigned char)*len);
+		memset(q->last->next->string, 0x00, MAX_QLENGTH);
 		memcpy(q->last->next->string, string, len);
 		q->last->next->len = len;
 		q->last->next->next = NULL;
