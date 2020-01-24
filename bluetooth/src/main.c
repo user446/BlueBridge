@@ -62,25 +62,29 @@
 /* Private macro -------------------------------------------------------------*/
 extern uint16_t connection_handle;
 /* Private variables ---------------------------------------------------------*/
-uint8_t spi_buffer_tx[MAX_QLENGTH];
-uint8_t spi_buffer_rx[MAX_QLENGTH];
-uint8_t test_buff[10] = {'h', 'e', 'l', 'l', 'o', '\r', '\n', 0x00, 0x00, 0x00};
-uint8_t command[MAX_QLENGTH];
+struct timer t_updater;
 
-extern uint8_t buffer_spi_tail;
-extern volatile uint8_t buffer_spi_used;
+uint8_t test_buff[7] = {'h', 'e', 'l', 'l', 'o', '\r', '\n'};
+uint8_t input_buffer_spi[MAX_QLENGTH];
+uint8_t output_buffer_spi[MAX_QLENGTH];
 
-Queue q_msg_from_rxATT;
-Queue q_msg_to_txATT;
+FlagStatus spi_eor = SET;
+FlagStatus spi_eot = SET;
+
+volatile uint16_t bytes_to_receive = MAX_QLENGTH;
+volatile uint16_t bytes_to_send = MAX_QLENGTH;
+
+volatile uint8_t inbuffer_idx = 0;
+volatile uint8_t outbuffer_idx = 0;
 
 /* Private function prototypes -----------------------------------------------*/
-struct timer t_updater;
+void InitiateSPISend(uint8_t* buffer, uint8_t len);
+void InitiateSPIRec(void);
+
 _Bool processSPI();
 _Bool processAttributes(Queue rx, Queue tx);
 void send_test(void);
-
 void SPI_Slave_Configuration(void);
-void DMASpi_Sending(uint32_t buffer, uint32_t size);
 /* Private functions ---------------------------------------------------------*/
 uint32_t Timer_Elapsed(struct timer *t)
 {
@@ -131,10 +135,9 @@ int main(void)
 	
 	Timer_Set(&t_updater, CLOCK_SECOND/1000);
 	
-	queue_init(&q_msg_from_rxATT);
-	queue_init(&q_msg_to_txATT);
-	
 	printf("Rx and Tx queues initialized\r\n");
+	
+	SPI_ITConfig(SPI_IT_RX, ENABLE);
 	
   while(1) {
     /* BlueNRG-1 stack tick */
@@ -143,10 +146,29 @@ int main(void)
 		/* Application tick */
     APP_Tick(send_test);
 		
-		processSPI();
+		InitiateSPISend(test_buff, 7);
+		InitiateSPIRec();
   }
   
 } /* end main() */
+//
+
+void InitiateSPISend(uint8_t* buffer, uint8_t len)
+{
+	SPI_ITConfig(SPI_IT_TX, ENABLE);
+	uint8_t i = 0;
+	while(i < len)
+		{
+			output_buffer_spi[i] = buffer[i];
+			i++;
+		}
+}
+//
+
+void InitiateSPIRec(void)
+{
+	spi_eor = SET;
+}
 //
 
 void send_test(void)
@@ -164,30 +186,6 @@ _Bool processAttributes(Queue rx, Queue tx)
 }
 //
 
-/**
-* @brief  Process command code
-* @param  None
-* @retval None
-*/
-uint8_t t = 0;
-volatile uint8_t i = 0;
-_Bool processSPI()
-{
-    /* Get the LEDS actual status */
-   
-    /* Prepare buffer to sent through SPI DMA TX channel */
-    DMASpi_Sending((uint32_t)&spi_buffer_tx[0], 10);
-    
-    while(buffer_spi_used==0);    
-    
-    /* Parse the command */
-    command[(i++)%MAX_QLENGTH] = spi_buffer_rx[buffer_spi_tail];
-    
-    buffer_spi_tail = (buffer_spi_tail+1)%SPI_BUFF_SIZE;    
-    buffer_spi_used--;      
-}
-//
-
 
 /**
   * @brief  SPI Slave initialization.
@@ -198,7 +196,8 @@ void SPI_Slave_Configuration(void)
 {
   SPI_InitType SPI_InitStructure;
   GPIO_InitType GPIO_InitStructure;
-  
+  NVIC_InitType NVIC_InitStructure;
+	
   /* Enable SPI and GPIO clocks */
   SysCtrl_PeripheralClockCmd(CLOCK_PERIPH_GPIO | CLOCK_PERIPH_SPI, ENABLE);   
   
@@ -226,61 +225,31 @@ void SPI_Slave_Configuration(void)
   SPI_StructInit(&SPI_InitStructure);
   SPI_InitStructure.SPI_Mode = SPI_Mode_Slave;
   SPI_InitStructure.SPI_DataSize = SPI_DataSize_8b ;
-  SPI_InitStructure.SPI_CPOL = SPI_CPOL_Low;
+  SPI_InitStructure.SPI_CPOL = SPI_CPOL_High;
   SPI_InitStructure.SPI_CPHA = SPI_CPHA_2Edge;
   SPI_Init(&SPI_InitStructure);
 
   /* Clear RX and TX FIFO */
   SPI_ClearTXFIFO();
   SPI_ClearRXFIFO();
-  
-  /* Configure DMA peripheral */
-  SysCtrl_PeripheralClockCmd(CLOCK_PERIPH_DMA, ENABLE);
-  
-  DMA_InitType DMA_InitStructure;
-  /* Configure DMA SPI TX channel */
-  DMA_InitStructure.DMA_PeripheralBaseAddr = SPI_DR_BASE_ADDR;
-  DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)spi_buffer_tx;  
-  DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralDST;
-  DMA_InitStructure.DMA_BufferSize = (uint32_t)SPI_BUFF_SIZE;  
-  DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
-  DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;    
-  DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Byte;
-  DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_Byte;
-  DMA_InitStructure.DMA_Mode = DMA_Mode_Normal;
-  DMA_InitStructure.DMA_Priority = DMA_Priority_Medium;
-  DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;  
-  DMA_Init(DMA_CH_SPI_TX, &DMA_InitStructure);
-    
-  /* Configure DMA SPI RX channel */
-  DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)spi_buffer_rx;  
-  DMA_InitStructure.DMA_BufferSize = (uint32_t)SPI_BUFF_SIZE;  
-  DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralSRC;
-  DMA_InitStructure.DMA_Mode = DMA_Mode_Circular;
-  DMA_Init(DMA_CH_SPI_RX, &DMA_InitStructure);
-  DMA_Cmd(DMA_CH_SPI_RX, ENABLE);
-  
-  /* Enable SPI_TX/SPI_RX DMA requests */
-  SPI_DMACmd(SPI_DMAReq_Tx | SPI_DMAReq_Rx, ENABLE);
-  
-    
+	
+	
+	SPI_EndianFormatReception(SPI_ENDIAN_MSByte_MSBit);
+	SPI_EndianFormatTransmission(SPI_ENDIAN_MSByte_MSBit);
+	
+  /* Configure the level of FIFO for interrupt */
+  SPI_TxFifoInterruptLevelConfig(SPI_FIFO_LEV_8);
+  SPI_RxFifoInterruptLevelConfig(SPI_FIFO_LEV_8);
+	
   /* Enable SPI functionality */
   SPI_Cmd(ENABLE);
-  
-}
-
-void DMASpi_Sending(uint32_t buffer, uint32_t size) 
-{
-  /* DMA_CH_SPI_TX reset */
-  DMA_CH_SPI_TX->CCR_b.EN = RESET;
-  
-  /* Rearm the DMA_CH_SPI_TX */
-  DMA_CH_SPI_TX->CMAR = buffer;
-  DMA_CH_SPI_TX->CNDTR = size;
-  
-  /* DMA_CH_SPI_TX enable */
-  DMA_CH_SPI_TX->CCR_b.EN = SET;
-  
+	
+  /* Enable the DMA Interrupt */
+  NVIC_InitStructure.NVIC_IRQChannel = SPI_IRQn;
+  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = LOW_PRIORITY;
+  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+  NVIC_Init(&NVIC_InitStructure); 
+	NVIC_EnableIRQ(SPI_IRQn);
 }
 //
 

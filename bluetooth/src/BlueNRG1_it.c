@@ -43,10 +43,34 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
+/**
+ * @brief  SPI IRQ mode defines
+ */
+#define SEND_START       0
+#define SEND_READ_REG    1
+#define SEND_WRITE_REG   2
+#define SEND_WRITE_DATA  3
+
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 uint8_t buffer_spi_tail = 0;
 volatile uint8_t buffer_spi_used = 0;
+
+/**
+ * @brief  SPI flag set at end of transaction
+ */
+extern FlagStatus spi_eor;
+extern FlagStatus spi_eot;
+
+extern volatile  uint16_t bytes_to_receive;
+extern volatile  uint16_t bytes_to_send;
+
+extern uint8_t input_buffer_spi[128];
+extern uint8_t output_buffer_spi[128];
+
+extern volatile  uint8_t inbuffer_idx;
+extern volatile  uint8_t outbuffer_idx;
+
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
 
@@ -91,14 +115,6 @@ void SVC_Handler(void)
 void SysTick_Handler(void)
 {
   SysCount_Handler();
-	
-  volatile uint8_t buffer_spi_head = 0;
-
-  buffer_spi_head = SPI_BUFF_SIZE - DMA_GetCurrDataCounter(DMA_CH_SPI_RX);
-  if(buffer_spi_head>=buffer_spi_tail)
-    buffer_spi_used = buffer_spi_head - buffer_spi_tail;
-  else
-    buffer_spi_used = (SPI_BUFF_SIZE - buffer_spi_tail) + buffer_spi_head ;
 }
 
 /**
@@ -108,11 +124,38 @@ void SysTick_Handler(void)
   */
 void GPIO_Handler(void)
 {
-//  if(GPIO_GetITPendingBit(GPIO_Pin_12) == SET) {
-//    /* Clear USER_BUTTON pending interrupt */
-//    GPIO_ClearITPendingBit(GPIO_Pin_12);
-//  }
+	__nop();
 }
+//
+
+void SPI_Handler(void)
+{
+	/* Check if SPI RX interrupt event occured */
+  if(SPI_GetITStatus(SPI_IT_RX) == SET) 
+	{
+		SPI_ClearITPendingBit(SPI_IT_RX);
+		input_buffer_spi[inbuffer_idx++] = SPI_ReceiveData();
+
+				if(bytes_to_receive == inbuffer_idx)
+				{
+					inbuffer_idx = 0;
+					spi_eor = RESET;
+				}
+  }
+	if(SPI_GetITStatus(SPI_IT_TX) == SET)
+	{
+		SPI_ClearITPendingBit(SPI_IT_TX);
+		SPI_SendData(output_buffer_spi[outbuffer_idx++]);
+		if(bytes_to_send == outbuffer_idx)
+			{
+				SPI_ITConfig(SPI_IT_TX , DISABLE);
+				outbuffer_idx = 0;
+				spi_eot = RESET;
+			}
+	}
+}
+//
+
 /******************************************************************************/
 /*                 BlueNRG-1 Peripherals Interrupt Handlers                   */
 /*  Add here the Interrupt Handler for the used peripheral(s) (PPP), for the  */

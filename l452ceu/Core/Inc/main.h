@@ -58,6 +58,8 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define SPI_EN_Pin GPIO_PIN_4
+#define SPI_EN_GPIO_Port GPIOA
 #define BLE_nRST_Pin GPIO_PIN_9
 #define BLE_nRST_GPIO_Port GPIOA
 #define BLE_Boot_Pin GPIO_PIN_10

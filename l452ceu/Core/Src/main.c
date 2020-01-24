@@ -45,8 +45,8 @@
 
 /* Private variables ---------------------------------------------------------*/
 SPI_HandleTypeDef hspi1;
-DMA_HandleTypeDef hdma_spi1_rx;
 DMA_HandleTypeDef hdma_spi1_tx;
+DMA_HandleTypeDef hdma_spi1_rx;
 
 UART_HandleTypeDef huart1;
 
@@ -54,12 +54,14 @@ UART_HandleTypeDef huart1;
 Queue q_from_tx;
 Queue q_from_rx;
 
-uint8_t test_buf[4] = {'t', 'e', 's', 't'};
+uint8_t test_buf[5] = {'t', 'e', 's', 't',0};
 
 volatile bool received = false;
 volatile bool transmitted = false;
+volatile bool exchanged = true;
 
 uint8_t transmit_buff[MAX_QLENGTH];
+uint8_t usb_transmit_buff[MAX_QLENGTH];
 uint8_t receive_buff[MAX_QLENGTH];
 /* USER CODE END PV */
 
@@ -76,21 +78,11 @@ static void MX_USART1_UART_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi)
+void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
 {
-	if(hspi->Instance == hspi1.Instance)
-	{
-		transmitted = true;
-	}
-}
-//
-
-void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef *hspi)
-{
-	if(hspi->Instance == hspi1.Instance)
-	{
-		received = true;
-	}
+	exchanged = true;
+	queue_push(&q_from_rx, receive_buff, MAX_QLENGTH);
+	HAL_GPIO_WritePin(SPI_EN_GPIO_Port, SPI_EN_Pin, GPIO_PIN_SET);
 }
 //
 
@@ -130,10 +122,14 @@ int main(void)
   MX_USART1_UART_Init();
   MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 2 */
-	HAL_GPIO_WritePin(BLE_Boot_GPIO_Port, BLE_Boot_Pin, GPIO_PIN_SET);
-	HAL_GPIO_WritePin(BLE_nRST_GPIO_Port, BLE_nRST_Pin, GPIO_PIN_SET);
 	queue_init(&q_from_rx);
 	queue_init(&q_from_tx);
+  HAL_GPIO_WritePin(BLE_Boot_GPIO_Port, BLE_Boot_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(BLE_nRST_GPIO_Port, BLE_nRST_Pin, GPIO_PIN_SET);
+	HAL_Delay(1000);
+	HAL_GPIO_WritePin(BLE_nRST_GPIO_Port, BLE_nRST_Pin, GPIO_PIN_RESET);
+	HAL_Delay(500);
+	HAL_GPIO_WritePin(BLE_nRST_GPIO_Port, BLE_nRST_Pin, GPIO_PIN_SET);
   /* USER CODE END 2 */
  
  
@@ -142,17 +138,30 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		queue_push(&q_from_tx, test_buf, sizeof(test_buf[0])*4);
-		if(!queue_isempty(&q_from_tx))
-			{
-				memset(transmit_buff, 0, sizeof(transmit_buff[0])*MAX_QLENGTH);
-				queue_get_front(&q_from_tx, transmit_buff, 0,  queue_get_frontl(&q_from_tx));
-				if(HAL_SPI_Transmit_DMA(&hspi1, transmit_buff, MAX_QLENGTH) != HAL_OK)
+		if(exchanged == true)
+		{
+			//queue_push(&q_from_tx, test_buf, sizeof(test_buf[0])*5);
+			if(!queue_isempty(&q_from_tx))
 				{
-					Error_Handler();
+					memset(transmit_buff, 0, sizeof(transmit_buff[0])*MAX_QLENGTH);
+					queue_get_front(&q_from_tx, transmit_buff, 0,  queue_get_frontl(&q_from_tx));
+					HAL_GPIO_WritePin(SPI_EN_GPIO_Port, SPI_EN_Pin, GPIO_PIN_RESET);
+					if(HAL_SPI_TransmitReceive_DMA(&hspi1, transmit_buff, receive_buff, MAX_QLENGTH) != HAL_OK)
+					{
+						Error_Handler();
+					}
+					exchanged = false;
+					queue_pop(&q_from_tx);
 				}
-				queue_pop(&q_from_tx);
+				
+			if(!queue_isempty(&q_from_rx))
+			{
+				memset(usb_transmit_buff, 0, MAX_QLENGTH);
+				queue_get_front(&q_from_rx, usb_transmit_buff, 0,  queue_get_frontl(&q_from_tx));
+				CDC_Transmit_FS(usb_transmit_buff, MAX_QLENGTH);
+				queue_pop(&q_from_rx);
 			}
+		}
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -172,14 +181,12 @@ void SystemClock_Config(void)
 
   /** Initializes the CPU, AHB and APB busses clocks 
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI;
-  RCC_OscInitStruct.MSIState = RCC_MSI_ON;
-  RCC_OscInitStruct.MSICalibrationValue = 0;
-  RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_6;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_MSI;
-  RCC_OscInitStruct.PLL.PLLM = 1;
-  RCC_OscInitStruct.PLL.PLLN = 40;
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+  RCC_OscInitStruct.PLL.PLLM = 3;
+  RCC_OscInitStruct.PLL.PLLN = 10;
   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV7;
   RCC_OscInitStruct.PLL.PLLQ = RCC_PLLQ_DIV2;
   RCC_OscInitStruct.PLL.PLLR = RCC_PLLR_DIV2;
@@ -203,11 +210,11 @@ void SystemClock_Config(void)
   PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART1|RCC_PERIPHCLK_USB;
   PeriphClkInit.Usart1ClockSelection = RCC_USART1CLKSOURCE_PCLK2;
   PeriphClkInit.UsbClockSelection = RCC_USBCLKSOURCE_PLLSAI1;
-  PeriphClkInit.PLLSAI1.PLLSAI1Source = RCC_PLLSOURCE_MSI;
-  PeriphClkInit.PLLSAI1.PLLSAI1M = 1;
-  PeriphClkInit.PLLSAI1.PLLSAI1N = 24;
+  PeriphClkInit.PLLSAI1.PLLSAI1Source = RCC_PLLSOURCE_HSE;
+  PeriphClkInit.PLLSAI1.PLLSAI1M = 3;
+  PeriphClkInit.PLLSAI1.PLLSAI1N = 12;
   PeriphClkInit.PLLSAI1.PLLSAI1P = RCC_PLLP_DIV7;
-  PeriphClkInit.PLLSAI1.PLLSAI1Q = RCC_PLLQ_DIV2;
+  PeriphClkInit.PLLSAI1.PLLSAI1Q = RCC_PLLQ_DIV4;
   PeriphClkInit.PLLSAI1.PLLSAI1R = RCC_PLLR_DIV2;
   PeriphClkInit.PLLSAI1.PLLSAI1ClockOut = RCC_PLLSAI1_48M2CLK;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
@@ -242,9 +249,9 @@ static void MX_SPI1_Init(void)
   hspi1.Init.Mode = SPI_MODE_MASTER;
   hspi1.Init.Direction = SPI_DIRECTION_2LINES;
   hspi1.Init.DataSize = SPI_DATASIZE_8BIT;
-  hspi1.Init.CLKPolarity = SPI_POLARITY_LOW;
+  hspi1.Init.CLKPolarity = SPI_POLARITY_HIGH;
   hspi1.Init.CLKPhase = SPI_PHASE_2EDGE;
-  hspi1.Init.NSS = SPI_NSS_HARD_OUTPUT;
+  hspi1.Init.NSS = SPI_NSS_SOFT;
   hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_256;
   hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
   hspi1.Init.TIMode = SPI_TIMODE_DISABLE;
@@ -331,13 +338,13 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, BLE_nRST_Pin|BLE_Boot_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, SPI_EN_Pin|BLE_nRST_Pin|BLE_Boot_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(SDA_GPIO_Port, SDA_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : BLE_nRST_Pin BLE_Boot_Pin */
-  GPIO_InitStruct.Pin = BLE_nRST_Pin|BLE_Boot_Pin;
+  /*Configure GPIO pins : SPI_EN_Pin BLE_nRST_Pin BLE_Boot_Pin */
+  GPIO_InitStruct.Pin = SPI_EN_Pin|BLE_nRST_Pin|BLE_Boot_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
