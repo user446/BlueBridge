@@ -64,12 +64,12 @@ extern uint16_t connection_handle;
 /* Private variables ---------------------------------------------------------*/
 struct timer t_updater;
 
-uint8_t test_buff[7] = {'h', 'e', 'l', 'l', 'o', '\r', '\n'};
+uint8_t test_buff[MAX_QLENGTH] = {'t', 'e', 's', 't'};
 uint8_t input_buffer_spi[MAX_QLENGTH];
 uint8_t output_buffer_spi[MAX_QLENGTH];
 
-FlagStatus spi_eor = SET;
-FlagStatus spi_eot = SET;
+FlagStatus spi_eor = RESET;
+FlagStatus spi_eot = RESET;
 
 volatile uint16_t bytes_to_receive = MAX_QLENGTH;
 volatile uint16_t bytes_to_send = MAX_QLENGTH;
@@ -81,7 +81,7 @@ volatile uint8_t outbuffer_idx = 0;
 void InitiateSPISend(uint8_t* buffer, uint8_t len);
 void InitiateSPIRec(void);
 
-_Bool processSPI();
+_Bool processSPI(void);
 _Bool processAttributes(Queue rx, Queue tx);
 void send_test(void);
 void SPI_Slave_Configuration(void);
@@ -97,7 +97,7 @@ uint32_t Timer_Elapsed(struct timer *t)
 //
 
 int main(void) 
-{
+ {
 	uint8_t ret;
 	
   /* System Init */
@@ -137,6 +137,11 @@ int main(void)
 	
 	printf("Rx and Tx queues initialized\r\n");
 	
+	for(int i = 0; i < MAX_QLENGTH; i++)
+	{
+		test_buff[i] = i;
+	}
+	
 	SPI_ITConfig(SPI_IT_RX, ENABLE);
 	
   while(1) {
@@ -146,7 +151,7 @@ int main(void)
 		/* Application tick */
     APP_Tick(send_test);
 		
-		InitiateSPISend(test_buff, 7);
+		InitiateSPISend(test_buff, MAX_QLENGTH);
 		InitiateSPIRec();
   }
   
@@ -155,34 +160,31 @@ int main(void)
 
 void InitiateSPISend(uint8_t* buffer, uint8_t len)
 {
+	bytes_to_send = len;
+	memcpy(output_buffer_spi, buffer, len);
 	SPI_ITConfig(SPI_IT_TX, ENABLE);
-	uint8_t i = 0;
-	while(i < len)
-		{
-			output_buffer_spi[i] = buffer[i];
-			i++;
-		}
+	spi_eot = RESET;
 }
 //
 
 void InitiateSPIRec(void)
 {
-	spi_eor = SET;
+	spi_eor = RESET;
 }
 //
 
 void send_test(void)
 {
-//	if(Timer_Expired(&t_updater)){
-//		APP_UpdateTX(test_buff, sizeof(test_buff[0])*7);
-//		Timer_Restart(&t_updater);
-//	}
+	if(Timer_Expired(&t_updater)){
+		APP_UpdateTX(input_buffer_spi, sizeof(input_buffer_spi[0])*MAX_QLENGTH);
+		Timer_Restart(&t_updater);
+	}
 }
 //
 
 _Bool processAttributes(Queue rx, Queue tx)
 {
-	
+	return true;
 }
 //
 
@@ -233,13 +235,12 @@ void SPI_Slave_Configuration(void)
   SPI_ClearTXFIFO();
   SPI_ClearRXFIFO();
 	
-	
 	SPI_EndianFormatReception(SPI_ENDIAN_MSByte_MSBit);
 	SPI_EndianFormatTransmission(SPI_ENDIAN_MSByte_MSBit);
 	
   /* Configure the level of FIFO for interrupt */
-  SPI_TxFifoInterruptLevelConfig(SPI_FIFO_LEV_8);
-  SPI_RxFifoInterruptLevelConfig(SPI_FIFO_LEV_8);
+  SPI_TxFifoInterruptLevelConfig(SPI_FIFO_LEV_1);
+  SPI_RxFifoInterruptLevelConfig(SPI_FIFO_LEV_1);
 	
   /* Enable SPI functionality */
   SPI_Cmd(ENABLE);

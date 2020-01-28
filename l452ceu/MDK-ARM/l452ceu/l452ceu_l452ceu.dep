@@ -1,9 +1,9 @@
 Dependencies for Project 'l452ceu', Target 'l452ceu': (DO NOT MODIFY !)
-F (startup_stm32l452xx.s)(0x5E2B0130)(--cpu Cortex-M4.fp -g --apcs=interwork --pd "__MICROLIB SETA 1"-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\RTE\_l452ceu"-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include--pd "__UVISION_VERSION SETA 522" --pd "_RTE_ SETA 1" --pd "STM32L452xx SETA 1"--list startup_stm32l452xx.lst --xref -o l452ceu\startup_stm32l452xx.o --depend l452ceu\startup_stm32l452xx.d)
+F (startup_stm32l452xx.s)(0x5E303E9E)(--cpu Cortex-M4.fp -g --apcs=interwork --pd "__MICROLIB SETA 1"-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\RTE\_l452ceu"-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include--pd "__UVISION_VERSION SETA 522" --pd "_RTE_ SETA 1" --pd "STM32L452xx SETA 1"--list startup_stm32l452xx.lst --xref -o l452ceu\startup_stm32l452xx.o --depend l452ceu\startup_stm32l452xx.d)
 F (..\Core\Src\comm.c)(0x5E270DDD)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core/Include/ -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\RTE\_l452ceu"-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="522" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o l452ceu\comm.o --omf_browse l452ceu\comm.crf --depend l452ceu\comm.d)
-I (../Core/Inc/main.h)(0x5E2B012D)
+I (../Core/Inc/main.h)(0x5E303E9A)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x5DEE6E73)
-I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E2B012D)
+I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E303E99)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h)(0x5DEE6E73)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h)(0x5DEE6E73)
@@ -48,10 +48,10 @@ I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x57F64D08)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x57F64D08)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x57F64D08)
 I (../Core/Inc/queue.h)(0x5E286516)
-F (../Core/Src/main.c)(0x5E2B15DC)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core/Include/ -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\RTE\_l452ceu"-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="522" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o l452ceu\main.o --omf_browse l452ceu\main.crf --depend l452ceu\main.d)
-I (../Core/Inc/main.h)(0x5E2B012D)
+F (../Core/Src/main.c)(0x5E30406E)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core/Include/ -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\RTE\_l452ceu"-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="522" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o l452ceu\main.o --omf_browse l452ceu\main.crf --depend l452ceu\main.d)
+I (../Core/Inc/main.h)(0x5E303E9A)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x5DEE6E73)
-I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E2B012D)
+I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E303E99)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h)(0x5DEE6E73)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h)(0x5DEE6E73)
@@ -86,24 +86,29 @@ I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usb.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd_ex.h)(0x5DEE6E73)
-I (../USB_DEVICE/App/usb_device.h)(0x5E2B012C)
+I (../Core/Inc/dma.h)(0x5E303E98)
+I (../Core/Inc/spi.h)(0x5E303E98)
+I (../Core/Inc/usart.h)(0x5E303E98)
+I (../USB_DEVICE/App/usb_device.h)(0x5E303E98)
 I (../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h)(0x5DEE6E73)
-I (../USB_DEVICE/Target/usbd_conf.h)(0x5E2B012C)
+I (../USB_DEVICE/Target/usbd_conf.h)(0x5E303E98)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x57F64D08)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x57F64D08)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x57F64D08)
+I (../Core/Inc/gpio.h)(0x5E303E96)
 I (../Core/Inc/comm.h)(0x5E25BDE8)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x5B5F3965)
 I (../Core/Inc/queue.h)(0x5E286516)
-I (../USB_DEVICE/App/usbd_cdc_if.h)(0x5E2B012D)
+I (../USB_DEVICE/App/usbd_cdc_if.h)(0x5E303E99)
 I (../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc/usbd_cdc.h)(0x5DEE6E73)
 I (../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h)(0x5DEE6E73)
 I (../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_core.h)(0x5DEE6E73)
 I (../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ctlreq.h)(0x5DEE6E73)
-F (../Core/Src/stm32l4xx_it.c)(0x5E2B012D)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core/Include/ -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\RTE\_l452ceu"-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="522" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o l452ceu\stm32l4xx_it.o --omf_browse l452ceu\stm32l4xx_it.crf --depend l452ceu\stm32l4xx_it.d)
-I (../Core/Inc/main.h)(0x5E2B012D)
+F (../Core/Src/gpio.c)(0x5E303E96)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core/Include/ -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\RTE\_l452ceu"-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="522" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o l452ceu\gpio.o --omf_browse l452ceu\gpio.crf --depend l452ceu\gpio.d)
+I (../Core/Inc/gpio.h)(0x5E303E96)
+I (../Core/Inc/main.h)(0x5E303E9A)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x5DEE6E73)
-I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E2B012D)
+I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E303E99)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h)(0x5DEE6E73)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h)(0x5DEE6E73)
@@ -138,11 +143,11 @@ I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usb.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd_ex.h)(0x5DEE6E73)
-I (../Core/Inc/stm32l4xx_it.h)(0x5E2B012D)
-F (../Core/Src/stm32l4xx_hal_msp.c)(0x5E2B012D)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core/Include/ -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\RTE\_l452ceu"-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="522" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o l452ceu\stm32l4xx_hal_msp.o --omf_browse l452ceu\stm32l4xx_hal_msp.crf --depend l452ceu\stm32l4xx_hal_msp.d)
-I (../Core/Inc/main.h)(0x5E2B012D)
+F (../Core/Src/dma.c)(0x5E303E97)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core/Include/ -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\RTE\_l452ceu"-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="522" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o l452ceu\dma.o --omf_browse l452ceu\dma.crf --depend l452ceu\dma.d)
+I (../Core/Inc/dma.h)(0x5E303E98)
+I (../Core/Inc/main.h)(0x5E303E9A)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x5DEE6E73)
-I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E2B012D)
+I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E303E99)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h)(0x5DEE6E73)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h)(0x5DEE6E73)
@@ -177,8 +182,163 @@ I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usb.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd_ex.h)(0x5DEE6E73)
-F (../USB_DEVICE/App/usb_device.c)(0x5E2B012C)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core/Include/ -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\RTE\_l452ceu"-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="522" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o l452ceu\usb_device.o --omf_browse l452ceu\usb_device.crf --depend l452ceu\usb_device.d)
-I (../USB_DEVICE/App/usb_device.h)(0x5E2B012C)
+F (../Core/Src/spi.c)(0x5E303E98)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core/Include/ -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\RTE\_l452ceu"-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="522" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o l452ceu\spi.o --omf_browse l452ceu\spi.crf --depend l452ceu\spi.d)
+I (../Core/Inc/spi.h)(0x5E303E98)
+I (../Core/Inc/main.h)(0x5E303E9A)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x5DEE6E73)
+I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E303E99)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h)(0x5DEE6E73)
+I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h)(0x5DEE6E73)
+I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l452xx.h)(0x5DEE6E73)
+I (../Drivers/CMSIS/Include/core_cm4.h)(0x5DEE6E73)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x57F64D08)
+I (../Drivers/CMSIS/Include/cmsis_version.h)(0x5DEE6E73)
+I (../Drivers/CMSIS/Include/cmsis_compiler.h)(0x5DEE6E73)
+I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x5DEE6E73)
+I (../Drivers/CMSIS/Include/mpu_armv7.h)(0x5DEE6E73)
+I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h)(0x5DEE6E73)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x57F64D08)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc_ex.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_exti.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio_ex.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma_ex.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_cortex.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_flash.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_flash_ex.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_flash_ramfunc.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c_ex.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr_ex.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi_ex.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usb.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd_ex.h)(0x5DEE6E73)
+F (../Core/Src/usart.c)(0x5E303E98)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core/Include/ -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\RTE\_l452ceu"-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="522" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o l452ceu\usart.o --omf_browse l452ceu\usart.crf --depend l452ceu\usart.d)
+I (../Core/Inc/usart.h)(0x5E303E98)
+I (../Core/Inc/main.h)(0x5E303E9A)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x5DEE6E73)
+I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E303E99)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h)(0x5DEE6E73)
+I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h)(0x5DEE6E73)
+I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l452xx.h)(0x5DEE6E73)
+I (../Drivers/CMSIS/Include/core_cm4.h)(0x5DEE6E73)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x57F64D08)
+I (../Drivers/CMSIS/Include/cmsis_version.h)(0x5DEE6E73)
+I (../Drivers/CMSIS/Include/cmsis_compiler.h)(0x5DEE6E73)
+I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x5DEE6E73)
+I (../Drivers/CMSIS/Include/mpu_armv7.h)(0x5DEE6E73)
+I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h)(0x5DEE6E73)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x57F64D08)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc_ex.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_exti.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio_ex.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma_ex.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_cortex.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_flash.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_flash_ex.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_flash_ramfunc.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c_ex.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr_ex.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi_ex.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usb.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd_ex.h)(0x5DEE6E73)
+F (../Core/Src/stm32l4xx_it.c)(0x5E303E99)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core/Include/ -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\RTE\_l452ceu"-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="522" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o l452ceu\stm32l4xx_it.o --omf_browse l452ceu\stm32l4xx_it.crf --depend l452ceu\stm32l4xx_it.d)
+I (../Core/Inc/main.h)(0x5E303E9A)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x5DEE6E73)
+I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E303E99)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h)(0x5DEE6E73)
+I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h)(0x5DEE6E73)
+I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l452xx.h)(0x5DEE6E73)
+I (../Drivers/CMSIS/Include/core_cm4.h)(0x5DEE6E73)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x57F64D08)
+I (../Drivers/CMSIS/Include/cmsis_version.h)(0x5DEE6E73)
+I (../Drivers/CMSIS/Include/cmsis_compiler.h)(0x5DEE6E73)
+I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x5DEE6E73)
+I (../Drivers/CMSIS/Include/mpu_armv7.h)(0x5DEE6E73)
+I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h)(0x5DEE6E73)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x57F64D08)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc_ex.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_exti.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio_ex.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma_ex.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_cortex.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_flash.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_flash_ex.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_flash_ramfunc.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c_ex.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr_ex.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi_ex.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usb.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd_ex.h)(0x5DEE6E73)
+I (../Core/Inc/stm32l4xx_it.h)(0x5E303E99)
+F (../Core/Src/stm32l4xx_hal_msp.c)(0x5E303E99)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core/Include/ -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\RTE\_l452ceu"-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="522" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o l452ceu\stm32l4xx_hal_msp.o --omf_browse l452ceu\stm32l4xx_hal_msp.crf --depend l452ceu\stm32l4xx_hal_msp.d)
+I (../Core/Inc/main.h)(0x5E303E9A)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x5DEE6E73)
+I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E303E99)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h)(0x5DEE6E73)
+I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h)(0x5DEE6E73)
+I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l452xx.h)(0x5DEE6E73)
+I (../Drivers/CMSIS/Include/core_cm4.h)(0x5DEE6E73)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x57F64D08)
+I (../Drivers/CMSIS/Include/cmsis_version.h)(0x5DEE6E73)
+I (../Drivers/CMSIS/Include/cmsis_compiler.h)(0x5DEE6E73)
+I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x5DEE6E73)
+I (../Drivers/CMSIS/Include/mpu_armv7.h)(0x5DEE6E73)
+I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h)(0x5DEE6E73)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x57F64D08)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc_ex.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_exti.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio_ex.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma_ex.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_cortex.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_flash.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_flash_ex.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_flash_ramfunc.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c_ex.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr_ex.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi_ex.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usb.h)(0x5DEE6E73)
+I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd_ex.h)(0x5DEE6E73)
+F (../USB_DEVICE/App/usb_device.c)(0x5E303E98)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core/Include/ -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\RTE\_l452ceu"-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="522" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o l452ceu\usb_device.o --omf_browse l452ceu\usb_device.crf --depend l452ceu\usb_device.d)
+I (../USB_DEVICE/App/usb_device.h)(0x5E303E98)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h)(0x5DEE6E73)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l452xx.h)(0x5DEE6E73)
 I (../Drivers/CMSIS/Include/core_cm4.h)(0x5DEE6E73)
@@ -189,7 +349,7 @@ I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x5DEE6E73)
 I (../Drivers/CMSIS/Include/mpu_armv7.h)(0x5DEE6E73)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x5DEE6E73)
-I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E2B012D)
+I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E303E99)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h)(0x5DEE6E73)
@@ -216,26 +376,26 @@ I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usb.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd_ex.h)(0x5DEE6E73)
 I (../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h)(0x5DEE6E73)
-I (../USB_DEVICE/Target/usbd_conf.h)(0x5E2B012C)
+I (../USB_DEVICE/Target/usbd_conf.h)(0x5E303E98)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x57F64D08)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x57F64D08)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x57F64D08)
-I (../Core/Inc/main.h)(0x5E2B012D)
+I (../Core/Inc/main.h)(0x5E303E9A)
 I (../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_core.h)(0x5DEE6E73)
 I (../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h)(0x5DEE6E73)
 I (../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ctlreq.h)(0x5DEE6E73)
-I (../USB_DEVICE/App/usbd_desc.h)(0x5E2B012D)
+I (../USB_DEVICE/App/usbd_desc.h)(0x5E303E99)
 I (../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc/usbd_cdc.h)(0x5DEE6E73)
-I (../USB_DEVICE/App/usbd_cdc_if.h)(0x5E2B012D)
-F (../USB_DEVICE/App/usbd_desc.c)(0x5E2B012D)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core/Include/ -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\RTE\_l452ceu"-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="522" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o l452ceu\usbd_desc.o --omf_browse l452ceu\usbd_desc.crf --depend l452ceu\usbd_desc.d)
+I (../USB_DEVICE/App/usbd_cdc_if.h)(0x5E303E99)
+F (../USB_DEVICE/App/usbd_desc.c)(0x5E303E99)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core/Include/ -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\RTE\_l452ceu"-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="522" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o l452ceu\usbd_desc.o --omf_browse l452ceu\usbd_desc.crf --depend l452ceu\usbd_desc.d)
 I (../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_core.h)(0x5DEE6E73)
-I (../USB_DEVICE/Target/usbd_conf.h)(0x5E2B012C)
+I (../USB_DEVICE/Target/usbd_conf.h)(0x5E303E98)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x57F64D08)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x57F64D08)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x57F64D08)
-I (../Core/Inc/main.h)(0x5E2B012D)
+I (../Core/Inc/main.h)(0x5E303E9A)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x5DEE6E73)
-I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E2B012D)
+I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E303E99)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h)(0x5DEE6E73)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h)(0x5DEE6E73)
@@ -273,19 +433,19 @@ I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd_ex.h)(0x5DEE6E73)
 I (../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h)(0x5DEE6E73)
 I (../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h)(0x5DEE6E73)
 I (../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ctlreq.h)(0x5DEE6E73)
-I (../USB_DEVICE/App/usbd_desc.h)(0x5E2B012D)
-F (../USB_DEVICE/App/usbd_cdc_if.c)(0x5E2B012D)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core/Include/ -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\RTE\_l452ceu"-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="522" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o l452ceu\usbd_cdc_if.o --omf_browse l452ceu\usbd_cdc_if.crf --depend l452ceu\usbd_cdc_if.d)
-I (../USB_DEVICE/App/usbd_cdc_if.h)(0x5E2B012D)
+I (../USB_DEVICE/App/usbd_desc.h)(0x5E303E99)
+F (../USB_DEVICE/App/usbd_cdc_if.c)(0x5E303E99)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core/Include/ -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\RTE\_l452ceu"-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="522" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o l452ceu\usbd_cdc_if.o --omf_browse l452ceu\usbd_cdc_if.crf --depend l452ceu\usbd_cdc_if.d)
+I (../USB_DEVICE/App/usbd_cdc_if.h)(0x5E303E99)
 I (../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc/usbd_cdc.h)(0x5DEE6E73)
 I (../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h)(0x5DEE6E73)
 I (../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h)(0x5DEE6E73)
-I (../USB_DEVICE/Target/usbd_conf.h)(0x5E2B012C)
+I (../USB_DEVICE/Target/usbd_conf.h)(0x5E303E98)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x57F64D08)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x57F64D08)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x57F64D08)
-I (../Core/Inc/main.h)(0x5E2B012D)
+I (../Core/Inc/main.h)(0x5E303E9A)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x5DEE6E73)
-I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E2B012D)
+I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E303E99)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h)(0x5DEE6E73)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h)(0x5DEE6E73)
@@ -324,7 +484,7 @@ I (../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_core.h)(0x5DEE6E73)
 I (../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ctlreq.h)(0x5DEE6E73)
 I (../Core/Inc/comm.h)(0x5E25BDE8)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x5B5F3965)
-F (../USB_DEVICE/Target/usbd_conf.c)(0x5E2B012D)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core/Include/ -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\RTE\_l452ceu"-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="522" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o l452ceu\usbd_conf.o --omf_browse l452ceu\usbd_conf.crf --depend l452ceu\usbd_conf.d)
+F (../USB_DEVICE/Target/usbd_conf.c)(0x5E303E99)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core/Include/ -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\RTE\_l452ceu"-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="522" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o l452ceu\usbd_conf.o --omf_browse l452ceu\usbd_conf.crf --depend l452ceu\usbd_conf.d)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h)(0x5DEE6E73)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l452xx.h)(0x5DEE6E73)
 I (../Drivers/CMSIS/Include/core_cm4.h)(0x5DEE6E73)
@@ -335,7 +495,7 @@ I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x5DEE6E73)
 I (../Drivers/CMSIS/Include/mpu_armv7.h)(0x5DEE6E73)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x5DEE6E73)
-I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E2B012D)
+I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E303E99)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h)(0x5DEE6E73)
@@ -362,18 +522,18 @@ I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usb.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd_ex.h)(0x5DEE6E73)
 I (../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h)(0x5DEE6E73)
-I (../USB_DEVICE/Target/usbd_conf.h)(0x5E2B012C)
+I (../USB_DEVICE/Target/usbd_conf.h)(0x5E303E98)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x57F64D08)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x57F64D08)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x57F64D08)
-I (../Core/Inc/main.h)(0x5E2B012D)
+I (../Core/Inc/main.h)(0x5E303E9A)
 I (../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_core.h)(0x5DEE6E73)
 I (../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h)(0x5DEE6E73)
 I (../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ctlreq.h)(0x5DEE6E73)
 I (../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc/usbd_cdc.h)(0x5DEE6E73)
 F (../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pcd.c)(0x5DEE6E73)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core/Include/ -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\RTE\_l452ceu"-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="522" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o l452ceu\stm32l4xx_hal_pcd.o --omf_browse l452ceu\stm32l4xx_hal_pcd.crf --depend l452ceu\stm32l4xx_hal_pcd.d)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x5DEE6E73)
-I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E2B012D)
+I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E303E99)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h)(0x5DEE6E73)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h)(0x5DEE6E73)
@@ -410,7 +570,7 @@ I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usb.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd_ex.h)(0x5DEE6E73)
 F (../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pcd_ex.c)(0x5DEE6E73)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core/Include/ -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\RTE\_l452ceu"-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="522" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o l452ceu\stm32l4xx_hal_pcd_ex.o --omf_browse l452ceu\stm32l4xx_hal_pcd_ex.crf --depend l452ceu\stm32l4xx_hal_pcd_ex.d)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x5DEE6E73)
-I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E2B012D)
+I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E303E99)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h)(0x5DEE6E73)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h)(0x5DEE6E73)
@@ -447,7 +607,7 @@ I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usb.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd_ex.h)(0x5DEE6E73)
 F (../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_usb.c)(0x5DEE6E73)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core/Include/ -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\RTE\_l452ceu"-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="522" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o l452ceu\stm32l4xx_ll_usb.o --omf_browse l452ceu\stm32l4xx_ll_usb.crf --depend l452ceu\stm32l4xx_ll_usb.d)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x5DEE6E73)
-I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E2B012D)
+I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E303E99)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h)(0x5DEE6E73)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h)(0x5DEE6E73)
@@ -484,7 +644,7 @@ I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usb.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd_ex.h)(0x5DEE6E73)
 F (../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal.c)(0x5DEE6E73)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core/Include/ -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\RTE\_l452ceu"-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="522" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o l452ceu\stm32l4xx_hal.o --omf_browse l452ceu\stm32l4xx_hal.crf --depend l452ceu\stm32l4xx_hal.d)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x5DEE6E73)
-I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E2B012D)
+I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E303E99)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h)(0x5DEE6E73)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h)(0x5DEE6E73)
@@ -521,7 +681,7 @@ I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usb.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd_ex.h)(0x5DEE6E73)
 F (../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c.c)(0x5DEE6E73)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core/Include/ -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\RTE\_l452ceu"-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="522" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o l452ceu\stm32l4xx_hal_i2c.o --omf_browse l452ceu\stm32l4xx_hal_i2c.crf --depend l452ceu\stm32l4xx_hal_i2c.d)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x5DEE6E73)
-I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E2B012D)
+I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E303E99)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h)(0x5DEE6E73)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h)(0x5DEE6E73)
@@ -558,7 +718,7 @@ I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usb.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd_ex.h)(0x5DEE6E73)
 F (../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c_ex.c)(0x5DEE6E73)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core/Include/ -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\RTE\_l452ceu"-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="522" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o l452ceu\stm32l4xx_hal_i2c_ex.o --omf_browse l452ceu\stm32l4xx_hal_i2c_ex.crf --depend l452ceu\stm32l4xx_hal_i2c_ex.d)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x5DEE6E73)
-I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E2B012D)
+I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E303E99)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h)(0x5DEE6E73)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h)(0x5DEE6E73)
@@ -595,7 +755,7 @@ I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usb.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd_ex.h)(0x5DEE6E73)
 F (../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc.c)(0x5DEE6E73)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core/Include/ -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\RTE\_l452ceu"-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="522" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o l452ceu\stm32l4xx_hal_rcc.o --omf_browse l452ceu\stm32l4xx_hal_rcc.crf --depend l452ceu\stm32l4xx_hal_rcc.d)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x5DEE6E73)
-I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E2B012D)
+I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E303E99)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h)(0x5DEE6E73)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h)(0x5DEE6E73)
@@ -632,7 +792,7 @@ I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usb.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd_ex.h)(0x5DEE6E73)
 F (../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc_ex.c)(0x5DEE6E73)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core/Include/ -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\RTE\_l452ceu"-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="522" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o l452ceu\stm32l4xx_hal_rcc_ex.o --omf_browse l452ceu\stm32l4xx_hal_rcc_ex.crf --depend l452ceu\stm32l4xx_hal_rcc_ex.d)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x5DEE6E73)
-I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E2B012D)
+I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E303E99)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h)(0x5DEE6E73)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h)(0x5DEE6E73)
@@ -669,7 +829,7 @@ I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usb.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd_ex.h)(0x5DEE6E73)
 F (../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash.c)(0x5DEE6E73)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core/Include/ -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\RTE\_l452ceu"-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="522" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o l452ceu\stm32l4xx_hal_flash.o --omf_browse l452ceu\stm32l4xx_hal_flash.crf --depend l452ceu\stm32l4xx_hal_flash.d)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x5DEE6E73)
-I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E2B012D)
+I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E303E99)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h)(0x5DEE6E73)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h)(0x5DEE6E73)
@@ -706,7 +866,7 @@ I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usb.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd_ex.h)(0x5DEE6E73)
 F (../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c)(0x5DEE6E73)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core/Include/ -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\RTE\_l452ceu"-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="522" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o l452ceu\stm32l4xx_hal_flash_ex.o --omf_browse l452ceu\stm32l4xx_hal_flash_ex.crf --depend l452ceu\stm32l4xx_hal_flash_ex.d)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x5DEE6E73)
-I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E2B012D)
+I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E303E99)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h)(0x5DEE6E73)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h)(0x5DEE6E73)
@@ -743,7 +903,7 @@ I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usb.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd_ex.h)(0x5DEE6E73)
 F (../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ramfunc.c)(0x5DEE6E73)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core/Include/ -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\RTE\_l452ceu"-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="522" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o l452ceu\stm32l4xx_hal_flash_ramfunc.o --omf_browse l452ceu\stm32l4xx_hal_flash_ramfunc.crf --depend l452ceu\stm32l4xx_hal_flash_ramfunc.d)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x5DEE6E73)
-I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E2B012D)
+I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E303E99)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h)(0x5DEE6E73)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h)(0x5DEE6E73)
@@ -780,7 +940,7 @@ I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usb.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd_ex.h)(0x5DEE6E73)
 F (../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_gpio.c)(0x5DEE6E73)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core/Include/ -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\RTE\_l452ceu"-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="522" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o l452ceu\stm32l4xx_hal_gpio.o --omf_browse l452ceu\stm32l4xx_hal_gpio.crf --depend l452ceu\stm32l4xx_hal_gpio.d)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x5DEE6E73)
-I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E2B012D)
+I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E303E99)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h)(0x5DEE6E73)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h)(0x5DEE6E73)
@@ -817,7 +977,7 @@ I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usb.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd_ex.h)(0x5DEE6E73)
 F (../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c)(0x5DEE6E73)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core/Include/ -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\RTE\_l452ceu"-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="522" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o l452ceu\stm32l4xx_hal_dma.o --omf_browse l452ceu\stm32l4xx_hal_dma.crf --depend l452ceu\stm32l4xx_hal_dma.d)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x5DEE6E73)
-I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E2B012D)
+I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E303E99)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h)(0x5DEE6E73)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h)(0x5DEE6E73)
@@ -854,7 +1014,7 @@ I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usb.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd_ex.h)(0x5DEE6E73)
 F (../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma_ex.c)(0x5DEE6E73)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core/Include/ -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\RTE\_l452ceu"-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="522" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o l452ceu\stm32l4xx_hal_dma_ex.o --omf_browse l452ceu\stm32l4xx_hal_dma_ex.crf --depend l452ceu\stm32l4xx_hal_dma_ex.d)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x5DEE6E73)
-I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E2B012D)
+I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E303E99)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h)(0x5DEE6E73)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h)(0x5DEE6E73)
@@ -891,7 +1051,7 @@ I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usb.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd_ex.h)(0x5DEE6E73)
 F (../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr.c)(0x5DEE6E73)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core/Include/ -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\RTE\_l452ceu"-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="522" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o l452ceu\stm32l4xx_hal_pwr.o --omf_browse l452ceu\stm32l4xx_hal_pwr.crf --depend l452ceu\stm32l4xx_hal_pwr.d)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x5DEE6E73)
-I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E2B012D)
+I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E303E99)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h)(0x5DEE6E73)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h)(0x5DEE6E73)
@@ -928,7 +1088,7 @@ I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usb.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd_ex.h)(0x5DEE6E73)
 F (../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr_ex.c)(0x5DEE6E73)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core/Include/ -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\RTE\_l452ceu"-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="522" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o l452ceu\stm32l4xx_hal_pwr_ex.o --omf_browse l452ceu\stm32l4xx_hal_pwr_ex.crf --depend l452ceu\stm32l4xx_hal_pwr_ex.d)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x5DEE6E73)
-I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E2B012D)
+I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E303E99)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h)(0x5DEE6E73)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h)(0x5DEE6E73)
@@ -965,7 +1125,7 @@ I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usb.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd_ex.h)(0x5DEE6E73)
 F (../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.c)(0x5DEE6E73)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core/Include/ -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\RTE\_l452ceu"-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="522" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o l452ceu\stm32l4xx_hal_cortex.o --omf_browse l452ceu\stm32l4xx_hal_cortex.crf --depend l452ceu\stm32l4xx_hal_cortex.d)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x5DEE6E73)
-I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E2B012D)
+I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E303E99)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h)(0x5DEE6E73)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h)(0x5DEE6E73)
@@ -1002,7 +1162,7 @@ I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usb.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd_ex.h)(0x5DEE6E73)
 F (../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_exti.c)(0x5DEE6E73)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core/Include/ -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\RTE\_l452ceu"-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="522" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o l452ceu\stm32l4xx_hal_exti.o --omf_browse l452ceu\stm32l4xx_hal_exti.crf --depend l452ceu\stm32l4xx_hal_exti.d)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x5DEE6E73)
-I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E2B012D)
+I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E303E99)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h)(0x5DEE6E73)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h)(0x5DEE6E73)
@@ -1039,7 +1199,7 @@ I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usb.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd_ex.h)(0x5DEE6E73)
 F (../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_spi.c)(0x5DEE6E73)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core/Include/ -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\RTE\_l452ceu"-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="522" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o l452ceu\stm32l4xx_hal_spi.o --omf_browse l452ceu\stm32l4xx_hal_spi.crf --depend l452ceu\stm32l4xx_hal_spi.d)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x5DEE6E73)
-I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E2B012D)
+I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E303E99)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h)(0x5DEE6E73)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h)(0x5DEE6E73)
@@ -1076,7 +1236,7 @@ I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usb.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd_ex.h)(0x5DEE6E73)
 F (../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_spi_ex.c)(0x5DEE6E73)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core/Include/ -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\RTE\_l452ceu"-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="522" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o l452ceu\stm32l4xx_hal_spi_ex.o --omf_browse l452ceu\stm32l4xx_hal_spi_ex.crf --depend l452ceu\stm32l4xx_hal_spi_ex.d)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x5DEE6E73)
-I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E2B012D)
+I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E303E99)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h)(0x5DEE6E73)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h)(0x5DEE6E73)
@@ -1113,7 +1273,7 @@ I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usb.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd_ex.h)(0x5DEE6E73)
 F (../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim.c)(0x5DEE6E73)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core/Include/ -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\RTE\_l452ceu"-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="522" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o l452ceu\stm32l4xx_hal_tim.o --omf_browse l452ceu\stm32l4xx_hal_tim.crf --depend l452ceu\stm32l4xx_hal_tim.d)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x5DEE6E73)
-I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E2B012D)
+I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E303E99)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h)(0x5DEE6E73)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h)(0x5DEE6E73)
@@ -1150,7 +1310,7 @@ I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usb.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd_ex.h)(0x5DEE6E73)
 F (../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim_ex.c)(0x5DEE6E73)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core/Include/ -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\RTE\_l452ceu"-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="522" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o l452ceu\stm32l4xx_hal_tim_ex.o --omf_browse l452ceu\stm32l4xx_hal_tim_ex.crf --depend l452ceu\stm32l4xx_hal_tim_ex.d)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x5DEE6E73)
-I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E2B012D)
+I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E303E99)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h)(0x5DEE6E73)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h)(0x5DEE6E73)
@@ -1187,7 +1347,7 @@ I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usb.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd_ex.h)(0x5DEE6E73)
 F (../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_uart.c)(0x5DEE6E73)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core/Include/ -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\RTE\_l452ceu"-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="522" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o l452ceu\stm32l4xx_hal_uart.o --omf_browse l452ceu\stm32l4xx_hal_uart.crf --depend l452ceu\stm32l4xx_hal_uart.d)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x5DEE6E73)
-I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E2B012D)
+I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E303E99)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h)(0x5DEE6E73)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h)(0x5DEE6E73)
@@ -1224,7 +1384,7 @@ I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usb.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd_ex.h)(0x5DEE6E73)
 F (../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_uart_ex.c)(0x5DEE6E73)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core/Include/ -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\RTE\_l452ceu"-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="522" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o l452ceu\stm32l4xx_hal_uart_ex.o --omf_browse l452ceu\stm32l4xx_hal_uart_ex.crf --depend l452ceu\stm32l4xx_hal_uart_ex.d)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x5DEE6E73)
-I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E2B012D)
+I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E303E99)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h)(0x5DEE6E73)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h)(0x5DEE6E73)
@@ -1270,7 +1430,7 @@ I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x5DEE6E73)
 I (../Drivers/CMSIS/Include/mpu_armv7.h)(0x5DEE6E73)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x5DEE6E73)
-I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E2B012D)
+I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E303E99)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h)(0x5DEE6E73)
@@ -1298,13 +1458,13 @@ I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usb.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd_ex.h)(0x5DEE6E73)
 F (../Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_core.c)(0x5DEE6E73)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core/Include/ -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\RTE\_l452ceu"-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="522" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o l452ceu\usbd_core.o --omf_browse l452ceu\usbd_core.crf --depend l452ceu\usbd_core.d)
 I (../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_core.h)(0x5DEE6E73)
-I (../USB_DEVICE/Target/usbd_conf.h)(0x5E2B012C)
+I (../USB_DEVICE/Target/usbd_conf.h)(0x5E303E98)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x57F64D08)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x57F64D08)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x57F64D08)
-I (../Core/Inc/main.h)(0x5E2B012D)
+I (../Core/Inc/main.h)(0x5E303E9A)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x5DEE6E73)
-I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E2B012D)
+I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E303E99)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h)(0x5DEE6E73)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h)(0x5DEE6E73)
@@ -1345,13 +1505,13 @@ I (../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ctlreq.h)(0x5DEE6E73
 F (../Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ctlreq.c)(0x5DEE6E73)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core/Include/ -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\RTE\_l452ceu"-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="522" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o l452ceu\usbd_ctlreq.o --omf_browse l452ceu\usbd_ctlreq.crf --depend l452ceu\usbd_ctlreq.d)
 I (../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ctlreq.h)(0x5DEE6E73)
 I (../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h)(0x5DEE6E73)
-I (../USB_DEVICE/Target/usbd_conf.h)(0x5E2B012C)
+I (../USB_DEVICE/Target/usbd_conf.h)(0x5E303E98)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x57F64D08)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x57F64D08)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x57F64D08)
-I (../Core/Inc/main.h)(0x5E2B012D)
+I (../Core/Inc/main.h)(0x5E303E9A)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x5DEE6E73)
-I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E2B012D)
+I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E303E99)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h)(0x5DEE6E73)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h)(0x5DEE6E73)
@@ -1391,13 +1551,13 @@ I (../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_core.h)(0x5DEE6E73)
 F (../Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ioreq.c)(0x5DEE6E73)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../USB_DEVICE/App -I ../USB_DEVICE/Target -I ../Core/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core/Include/ -I ../Middlewares/Third_Party/ARM_CMSIS//CMSIS/Core_A/Include/-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\RTE\_l452ceu"-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="522" -D_RTE_ -DSTM32L452xx -DUSE_HAL_DRIVER -DSTM32L452xx-o l452ceu\usbd_ioreq.o --omf_browse l452ceu\usbd_ioreq.crf --depend l452ceu\usbd_ioreq.d)
 I (../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h)(0x5DEE6E73)
 I (../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h)(0x5DEE6E73)
-I (../USB_DEVICE/Target/usbd_conf.h)(0x5E2B012C)
+I (../USB_DEVICE/Target/usbd_conf.h)(0x5E303E98)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x57F64D08)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x57F64D08)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x57F64D08)
-I (../Core/Inc/main.h)(0x5E2B012D)
+I (../Core/Inc/main.h)(0x5E303E9A)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x5DEE6E73)
-I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E2B012D)
+I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E303E99)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h)(0x5DEE6E73)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h)(0x5DEE6E73)
@@ -1438,13 +1598,13 @@ F (../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/usbd_cdc.c)(0x5DEE6E
 I (../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc/usbd_cdc.h)(0x5DEE6E73)
 I (../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h)(0x5DEE6E73)
 I (../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h)(0x5DEE6E73)
-I (../USB_DEVICE/Target/usbd_conf.h)(0x5E2B012C)
+I (../USB_DEVICE/Target/usbd_conf.h)(0x5E303E98)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x57F64D08)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x57F64D08)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x57F64D08)
-I (../Core/Inc/main.h)(0x5E2B012D)
+I (../Core/Inc/main.h)(0x5E303E9A)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x5DEE6E73)
-I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E2B012D)
+I (../Core/Inc/stm32l4xx_hal_conf.h)(0x5E303E99)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h)(0x5DEE6E73)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h)(0x5DEE6E73)
 I (../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h)(0x5DEE6E73)

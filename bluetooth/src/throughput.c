@@ -371,10 +371,11 @@ void aci_gatt_notification_event(uint16_t Connection_Handle,
 	
     if(attr_handle == tx_handle+1)
     {
-			printf("Rec:");
-      for(int i = 0; i < Attribute_Value_Length; i++) 
-          printf("%c", Attribute_Value[i]);
-			printf("\r\n");
+			//копируем входной буфер из нотификации
+//			printf("Rec:");
+//      for(int i = 0; i < Attribute_Value_Length; i++) 
+//          printf("%c", Attribute_Value[i]);
+//			printf("\r\n");
     }
 }
 

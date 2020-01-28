@@ -64,8 +64,6 @@ void Error_Handler(void);
 #define BLE_nRST_GPIO_Port GPIOA
 #define BLE_Boot_Pin GPIO_PIN_10
 #define BLE_Boot_GPIO_Port GPIOA
-#define SDA_Pin GPIO_PIN_9
-#define SDA_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

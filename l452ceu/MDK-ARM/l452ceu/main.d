@@ -37,12 +37,16 @@ l452ceu\main.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h
 l452ceu\main.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd.h
 l452ceu\main.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usb.h
 l452ceu\main.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd_ex.h
+l452ceu\main.o: ../Core/Inc/dma.h
+l452ceu\main.o: ../Core/Inc/spi.h
+l452ceu\main.o: ../Core/Inc/usart.h
 l452ceu\main.o: ../USB_DEVICE/App/usb_device.h
 l452ceu\main.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h
 l452ceu\main.o: ../USB_DEVICE/Target/usbd_conf.h
 l452ceu\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 l452ceu\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 l452ceu\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+l452ceu\main.o: ../Core/Inc/gpio.h
 l452ceu\main.o: ../Core/Inc/comm.h
 l452ceu\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 l452ceu\main.o: ../Core/Inc/queue.h

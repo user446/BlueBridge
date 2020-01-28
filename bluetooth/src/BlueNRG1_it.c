@@ -135,12 +135,11 @@ void SPI_Handler(void)
 	{
 		SPI_ClearITPendingBit(SPI_IT_RX);
 		input_buffer_spi[inbuffer_idx++] = SPI_ReceiveData();
-
-				if(bytes_to_receive == inbuffer_idx)
-				{
-					inbuffer_idx = 0;
-					spi_eor = RESET;
-				}
+		if(bytes_to_receive == inbuffer_idx)
+			{
+				inbuffer_idx = 0;
+				spi_eor = SET;
+			}
   }
 	if(SPI_GetITStatus(SPI_IT_TX) == SET)
 	{
@@ -150,7 +149,7 @@ void SPI_Handler(void)
 			{
 				SPI_ITConfig(SPI_IT_TX , DISABLE);
 				outbuffer_idx = 0;
-				spi_eot = RESET;
+				spi_eot = SET;
 			}
 	}
 }
