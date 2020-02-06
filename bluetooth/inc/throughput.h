@@ -4,6 +4,7 @@
 
 #define NUM_PACKETS 500 
 #define CONVERSION_NUM 4
+#define MAX_QLENGTH 128
 
 #include <stdio.h>
 

@@ -22,15 +22,16 @@
 #include "main.h"
 #include "dma.h"
 #include "spi.h"
+#include "tim.h"
 #include "usart.h"
 #include "usb_device.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "comm.h"
 #include "queue.h"
 #include "usbd_cdc_if.h"
+#include "sw_timers.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -50,18 +51,21 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-Queue q_from_tx;
-Queue q_from_rx;
+Queue q_from_spirx;
+Queue q_from_usbrx;
 
 uint8_t test_buf[MAX_QLENGTH] = {0};
 
 volatile bool received = false;
-volatile bool transmitted = false;
 volatile bool exchanged = true;
 
-uint8_t transmit_buff[MAX_QLENGTH];
+uint8_t spi_transmit_buff[MAX_QLENGTH];
+uint8_t spi_receive_buff[MAX_QLENGTH];
+
 uint8_t usb_transmit_buff[MAX_QLENGTH];
-uint8_t receive_buff[MAX_QLENGTH];
+uint8_t usb_receive_buff[MAX_QLENGTH];
+
+struct timer t_resolver;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -76,10 +80,71 @@ void SystemClock_Config(void);
 void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
 {
 	exchanged = true;
-	queue_push(&q_from_rx, receive_buff, MAX_QLENGTH);
+	queue_push(&q_from_spirx, spi_receive_buff, MAX_QLENGTH);
 	HAL_GPIO_WritePin(SPI_EN_GPIO_Port, SPI_EN_Pin, GPIO_PIN_SET);
 }
 //
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+	if(htim->Instance == TIM6)
+	{
+		t_OnDigitCompleteInterrupt();
+	}
+}
+//
+
+void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef *hspi)
+{
+	if(hspi->Instance == hspi1.Instance)
+	{
+		queue_push(&q_from_spirx, spi_receive_buff, MAX_QLENGTH);
+		HAL_GPIO_WritePin(SPI_EN_GPIO_Port, SPI_EN_Pin, GPIO_PIN_SET);
+		exchanged = true;
+	}
+}
+//
+
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+	if(GPIO_Pin == BLE_IRQ_Pin)
+	{
+		if(HAL_GPIO_ReadPin(BLE_IRQ_GPIO_Port, BLE_IRQ_Pin) == GPIO_PIN_SET && queue_isempty(&q_from_usbrx))
+		{
+			exchanged = false;
+			HAL_GPIO_WritePin(SPI_EN_GPIO_Port, SPI_EN_Pin, GPIO_PIN_RESET);
+			HAL_SPI_Receive_DMA(&hspi1, spi_receive_buff, MAX_QLENGTH);
+		}
+	}
+}
+//
+
+/**
+	*	@brief	Функция приема сообщения с CDC
+	*	@note		см. функцию @ref CDC_Receive_FS
+	*	@param	
+	*	@retval	
+**/
+//
+void Connection_RecieveCallback(uint8_t* buffer, uint32_t Len)
+{
+	queue_push(&q_from_usbrx, buffer, Len);
+}
+//
+
+
+/**
+	*	@brief	Функция приема сообщения с CDC
+	*	@note		см. функцию @ref CDC_Transmit_FS
+	*	@param	
+	*	@retval	
+**/
+//
+void Connection_TransmitCallback(void)
+{
+	
+}
+
 
 /* USER CODE END 0 */
 
@@ -116,9 +181,10 @@ int main(void)
   MX_SPI1_Init();
   MX_USART1_UART_Init();
   MX_USB_DEVICE_Init();
+  MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
-	queue_init(&q_from_rx);
-	queue_init(&q_from_tx);
+	queue_init(&q_from_spirx);
+	queue_init(&q_from_usbrx);
   HAL_GPIO_WritePin(BLE_Boot_GPIO_Port, BLE_Boot_Pin, GPIO_PIN_RESET);
 	HAL_GPIO_WritePin(BLE_nRST_GPIO_Port, BLE_nRST_Pin, GPIO_PIN_SET);
 	HAL_Delay(1000);
@@ -132,37 +198,42 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 	
+	//заполнение тестового массива данных
 	for(int i = 0; i < MAX_QLENGTH; i++)
 	{
 		test_buf[i] = i;
 	}
 	
+	Timer_set(&t_resolver, 500, NULL, true, false, true);
+	
   while (1)
   {
+		t_OnDigitCompleteContinuous();
+		
 		if(exchanged == true)
-		{
-			queue_push(&q_from_tx, test_buf, sizeof(test_buf[0])*MAX_QLENGTH);
-			if(!queue_isempty(&q_from_tx))
-				{
-					memset(transmit_buff, 0, sizeof(transmit_buff[0])*MAX_QLENGTH);
-					queue_get_front(&q_from_tx, transmit_buff, 0,  queue_get_frontl(&q_from_tx));
-					HAL_GPIO_WritePin(SPI_EN_GPIO_Port, SPI_EN_Pin, GPIO_PIN_RESET);
-					if(HAL_SPI_TransmitReceive_DMA(&hspi1, transmit_buff, receive_buff, MAX_QLENGTH) != HAL_OK)
+			{
+				//включение тестового массива данных в очередь
+				//queue_push(&q_from_usbrx, test_buf, sizeof(test_buf[0])*MAX_QLENGTH);
+				if(!queue_isempty(&q_from_usbrx))
 					{
-						Error_Handler();
+						memset(spi_transmit_buff, 0, sizeof(spi_transmit_buff[0])*MAX_QLENGTH);
+						queue_get_front(&q_from_usbrx, spi_transmit_buff, 0,  queue_get_frontl(&q_from_usbrx));
+						HAL_GPIO_WritePin(SPI_EN_GPIO_Port, SPI_EN_Pin, GPIO_PIN_RESET);
+						if(HAL_SPI_TransmitReceive_DMA(&hspi1, spi_transmit_buff, spi_receive_buff, MAX_QLENGTH) != HAL_OK)
+							{
+								Error_Handler();
+							}
+							exchanged = false;
+							queue_pop(&q_from_usbrx);
 					}
-					exchanged = false;
-					queue_pop(&q_from_tx);
-				}
-				
-			if(!queue_isempty(&q_from_rx))
+			}
+		if(!queue_isempty(&q_from_spirx))
 			{
 				memset(usb_transmit_buff, 0, MAX_QLENGTH);
-				queue_get_front(&q_from_rx, usb_transmit_buff, 0,  queue_get_frontl(&q_from_tx));
+				queue_get_front(&q_from_spirx, usb_transmit_buff, 0,  queue_get_frontl(&q_from_spirx));
 				CDC_Transmit_FS(usb_transmit_buff, MAX_QLENGTH);
-				queue_pop(&q_from_rx);
+				queue_pop(&q_from_spirx);
 			}
-		}
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -189,10 +260,10 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_MSI;
   RCC_OscInitStruct.PLL.PLLM = 1;
-  RCC_OscInitStruct.PLL.PLLN = 48;
+  RCC_OscInitStruct.PLL.PLLN = 40;
   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV7;
   RCC_OscInitStruct.PLL.PLLQ = RCC_PLLQ_DIV2;
-  RCC_OscInitStruct.PLL.PLLR = RCC_PLLR_DIV4;
+  RCC_OscInitStruct.PLL.PLLR = RCC_PLLR_DIV2;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
     Error_Handler();
@@ -206,7 +277,7 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4) != HAL_OK)
   {
     Error_Handler();
   }
@@ -215,9 +286,9 @@ void SystemClock_Config(void)
   PeriphClkInit.UsbClockSelection = RCC_USBCLKSOURCE_PLLSAI1;
   PeriphClkInit.PLLSAI1.PLLSAI1Source = RCC_PLLSOURCE_MSI;
   PeriphClkInit.PLLSAI1.PLLSAI1M = 1;
-  PeriphClkInit.PLLSAI1.PLLSAI1N = 48;
+  PeriphClkInit.PLLSAI1.PLLSAI1N = 24;
   PeriphClkInit.PLLSAI1.PLLSAI1P = RCC_PLLP_DIV7;
-  PeriphClkInit.PLLSAI1.PLLSAI1Q = RCC_PLLQ_DIV4;
+  PeriphClkInit.PLLSAI1.PLLSAI1Q = RCC_PLLQ_DIV2;
   PeriphClkInit.PLLSAI1.PLLSAI1R = RCC_PLLR_DIV2;
   PeriphClkInit.PLLSAI1.PLLSAI1ClockOut = RCC_PLLSAI1_48M2CLK;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)

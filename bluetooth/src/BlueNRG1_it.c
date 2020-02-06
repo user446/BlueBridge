@@ -28,6 +28,7 @@
 #include "bluenrg1_stack.h"
 #include "SDK_EVAL_Com.h"
 #include "clock.h"
+#include "queue.h"
 
 /** @addtogroup BlueNRG1_StdPeriph_Examples
   * @{
@@ -61,6 +62,7 @@ volatile uint8_t buffer_spi_used = 0;
  */
 extern FlagStatus spi_eor;
 extern FlagStatus spi_eot;
+extern FlagStatus spi_receive_enabled;
 
 extern volatile  uint16_t bytes_to_receive;
 extern volatile  uint16_t bytes_to_send;
@@ -70,6 +72,9 @@ extern uint8_t output_buffer_spi[128];
 
 extern volatile  uint8_t inbuffer_idx;
 extern volatile  uint8_t outbuffer_idx;
+
+extern Queue q_ble_rx;
+extern Queue q_spi_rx;
 
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
@@ -133,17 +138,19 @@ void SPI_Handler(void)
 	/* Check if SPI RX interrupt event occured */
   if(SPI_GetITStatus(SPI_IT_RX) == SET) 
 	{
-		SPI_ClearITPendingBit(SPI_IT_RX);
 		input_buffer_spi[inbuffer_idx++] = SPI_ReceiveData();
 		if(bytes_to_receive == inbuffer_idx)
 			{
+				SPI_ITConfig(SPI_IT_RX , DISABLE);
+				queue_push(&q_spi_rx, input_buffer_spi, bytes_to_receive);
 				inbuffer_idx = 0;
 				spi_eor = SET;
+				spi_receive_enabled = RESET;
 			}
+		SPI_ClearITPendingBit(SPI_IT_RX);
   }
 	if(SPI_GetITStatus(SPI_IT_TX) == SET)
 	{
-		SPI_ClearITPendingBit(SPI_IT_TX);
 		SPI_SendData(output_buffer_spi[outbuffer_idx++]);
 		if(bytes_to_send == outbuffer_idx)
 			{
@@ -151,6 +158,7 @@ void SPI_Handler(void)
 				outbuffer_idx = 0;
 				spi_eot = SET;
 			}
+		SPI_ClearITPendingBit(SPI_IT_TX);
 	}
 }
 //

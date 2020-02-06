@@ -44,10 +44,22 @@
 #include "app_state.h"
 #include "throughput.h"
 #include "SDK_EVAL_Config.h"
+#include "queue.h"
+
 #if CLIENT
 #include "Throughput_client_config.h"
+#define SPI_IN_Pin	GPIO_Pin_3
+#define SPI_OUT_Pin	GPIO_Pin_2
+#define SPI_CS_Pin	GPIO_Pin_11
+#define SPI_CLK_Pin	GPIO_Pin_8
+#define BLE_IRQ			GPIO_Pin_6
 #else
 #include "Throughput_server_config.h"
+#define SPI_IN_Pin	GPIO_Pin_3
+#define SPI_OUT_Pin	GPIO_Pin_2
+#define SPI_CS_Pin	GPIO_Pin_11
+#define SPI_CLK_Pin	GPIO_Pin_0
+#define BLE_IRQ			GPIO_Pin_4
 #endif
 
 #include "queue.h"
@@ -58,18 +70,26 @@
 /* Private define ------------------------------------------------------------*/
 #define BLE_THROUGHPUT_VERSION_STRING "1.0.0" 
 #define BUFF_SIZE                   	(10)
-#define MAX_QLENGTH 128
 /* Private macro -------------------------------------------------------------*/
 extern uint16_t connection_handle;
 /* Private variables ---------------------------------------------------------*/
 struct timer t_updater;
+Queue q_ble_rx;
+Queue q_spi_rx;
 
-uint8_t test_buff[MAX_QLENGTH] = {'t', 'e', 's', 't'};
-uint8_t input_buffer_spi[MAX_QLENGTH];
-uint8_t output_buffer_spi[MAX_QLENGTH];
+uint8_t input_buffer_spi[MAX_QLENGTH] = {0};
+uint8_t output_buffer_spi[MAX_QLENGTH] = {0};
+uint8_t output_buffer_ble[MAX_QLENGTH] = {0};
 
-FlagStatus spi_eor = RESET;
-FlagStatus spi_eot = RESET;
+uint8_t test_buffer[MAX_QLENGTH] = {0};
+
+uint8_t bluenrg_stack = 0;
+
+FlagStatus spi_eor = SET;
+FlagStatus spi_eot = SET;
+
+FlagStatus spi_receive_enabled = RESET;
+FlagStatus spi_transmit_enabled = RESET;
 
 volatile uint16_t bytes_to_receive = MAX_QLENGTH;
 volatile uint16_t bytes_to_send = MAX_QLENGTH;
@@ -83,7 +103,7 @@ void InitiateSPIRec(void);
 
 _Bool processSPI(void);
 _Bool processAttributes(Queue rx, Queue tx);
-void send_test(void);
+void Exchange(void);
 void SPI_Slave_Configuration(void);
 /* Private functions ---------------------------------------------------------*/
 uint32_t Timer_Elapsed(struct timer *t)
@@ -133,52 +153,63 @@ int main(void)
   
   printf("BLE Stack Initialized\r\n");
 	
-	Timer_Set(&t_updater, CLOCK_SECOND/1000);
+	queue_init(&q_ble_rx);
+	queue_init(&q_spi_rx);
 	
-	printf("Rx and Tx queues initialized\r\n");
+	printf("Rx queues initialized\r\n");
+	
+	bluenrg_stack = BLE_STACK_CONFIGURATION;
 	
 	for(int i = 0; i < MAX_QLENGTH; i++)
 	{
-		test_buff[i] = i;
+		test_buffer[i] = i;
 	}
-	
-	SPI_ITConfig(SPI_IT_RX, ENABLE);
-	
+	GPIO_SetBits(BLE_IRQ);
   while(1) {
     /* BlueNRG-1 stack tick */
     BTLE_StackTick();
 		
 		/* Application tick */
-    APP_Tick(send_test);
-		
-		InitiateSPISend(test_buff, MAX_QLENGTH);
-		InitiateSPIRec();
+    APP_Tick(Exchange);
   }
   
 } /* end main() */
 //
 
-void InitiateSPISend(uint8_t* buffer, uint8_t len)
+void Exchange(void)
 {
-	bytes_to_send = len;
-	memcpy(output_buffer_spi, buffer, len);
-	SPI_ITConfig(SPI_IT_TX, ENABLE);
-	spi_eot = RESET;
-}
-//
-
-void InitiateSPIRec(void)
-{
-	spi_eor = RESET;
-}
-//
-
-void send_test(void)
-{
-	if(Timer_Expired(&t_updater)){
-		APP_UpdateTX(input_buffer_spi, sizeof(input_buffer_spi[0])*MAX_QLENGTH);
-		Timer_Restart(&t_updater);
+	#if SERVER
+	queue_push(&q_spi_rx, test_buffer, MAX_QLENGTH);
+	spi_eor = SET;
+	#endif
+	if(queue_isempty(&q_spi_rx) && spi_receive_enabled == RESET)
+	{
+		SPI_ITConfig(SPI_IT_RX, ENABLE);
+		spi_receive_enabled = SET;
 	}
+	if(!queue_isempty(&q_spi_rx) && spi_eor == SET)
+	{
+		uint8_t len = queue_get_frontl(&q_spi_rx);
+		memset(output_buffer_ble, 0, MAX_QLENGTH);
+		queue_get_front(&q_spi_rx, output_buffer_ble, 0, len);
+		APP_UpdateTX(output_buffer_ble, len);
+		queue_pop(&q_spi_rx);
+		SPI_ITConfig(SPI_IT_RX, ENABLE);
+		spi_eor = RESET;
+	}
+	if(!queue_isempty(&q_ble_rx))
+	{
+		uint8_t len = queue_get_frontl(&q_ble_rx);
+		memset(output_buffer_spi, 0, MAX_QLENGTH);
+		queue_get_front(&q_ble_rx, output_buffer_spi, 0, len);
+		queue_pop(&q_ble_rx);
+		SPI_ITConfig(SPI_IT_TX, ENABLE);
+		spi_eot = RESET;
+	}
+//	if(spi_eot == SET)
+//		GPIO_SetBits(BLE_IRQ);
+//	else if(spi_eot == RESET)
+//		GPIO_ResetBits(BLE_IRQ);
 }
 //
 
@@ -205,22 +236,28 @@ void SPI_Slave_Configuration(void)
   
   /* Configure SPI pins */
   GPIO_StructInit(&GPIO_InitStructure);
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;		//OUT
+  GPIO_InitStructure.GPIO_Pin = SPI_OUT_Pin;		//OUT
   GPIO_InitStructure.GPIO_Mode = Serial0_Mode;
   GPIO_InitStructure.GPIO_Pull = ENABLE;
   GPIO_InitStructure.GPIO_HighPwr = DISABLE;
   GPIO_Init(&GPIO_InitStructure);
   
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3; 	//IN
+  GPIO_InitStructure.GPIO_Pin = SPI_IN_Pin;		//IN
   GPIO_InitStructure.GPIO_Mode = Serial0_Mode;
   GPIO_Init(&GPIO_InitStructure);
   
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8; 	//CLOCK
+  GPIO_InitStructure.GPIO_Pin = SPI_CLK_Pin; 	//CLOCK
   GPIO_InitStructure.GPIO_Mode = Serial0_Mode;
   GPIO_Init(&GPIO_InitStructure);
   
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11; 	//NSS
+  GPIO_InitStructure.GPIO_Pin = SPI_CS_Pin; 	//NSS
   GPIO_InitStructure.GPIO_Mode = Serial0_Mode;
+  GPIO_Init(&GPIO_InitStructure);
+	
+	GPIO_InitStructure.GPIO_Pin = BLE_IRQ;			//External output
+	GPIO_InitStructure.GPIO_Mode = GPIO_Output;
+  GPIO_InitStructure.GPIO_Pull = DISABLE;
+  GPIO_InitStructure.GPIO_HighPwr = ENABLE;
   GPIO_Init(&GPIO_InitStructure);
   
   /* Configure SPI in master mode */
@@ -242,15 +279,14 @@ void SPI_Slave_Configuration(void)
   SPI_TxFifoInterruptLevelConfig(SPI_FIFO_LEV_1);
   SPI_RxFifoInterruptLevelConfig(SPI_FIFO_LEV_1);
 	
-  /* Enable SPI functionality */
-  SPI_Cmd(ENABLE);
-	
   /* Enable the DMA Interrupt */
   NVIC_InitStructure.NVIC_IRQChannel = SPI_IRQn;
   NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = LOW_PRIORITY;
   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
   NVIC_Init(&NVIC_InitStructure); 
-	NVIC_EnableIRQ(SPI_IRQn);
+	
+  /* Enable SPI functionality */
+  SPI_Cmd(ENABLE);
 }
 //
 

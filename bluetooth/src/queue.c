@@ -77,14 +77,15 @@ bool queue_isempty(struct Queue* q)
 	*	@retval	нет
 **/
 //
-void queue_push(struct Queue* q, unsigned short* string, unsigned short len)
+void queue_push(struct Queue* q, unsigned char* string, unsigned short len)
 {
 	q->size++;
 	if(q->front == NULL)
 	{
 		q->front = (struct Node*) malloc(sizeof(struct Node));
 		//q->front->string = (unsigned short*)malloc(len);
-		memset(q->front->string, 0x00, MAX_LENGTH);
+		//q->front->string = (unsigned char*)malloc(sizeof(unsigned char)*MAX_QLENGTH);
+		memset(q->front->string, 0x00, MAX_QLENGTH);
 		memcpy(q->front->string, string, len);
 		q->front->len = len;
 		q->front->next = NULL;
@@ -94,7 +95,8 @@ void queue_push(struct Queue* q, unsigned short* string, unsigned short len)
 	{
 		q->last->next = (struct Node*) malloc(sizeof(struct Node));
 		//q->last->next->string = (unsigned short*)malloc(len);
-		memset(q->last->next->string, 0x00, MAX_LENGTH);
+		//q->last->next->string = (unsigned char*)malloc(sizeof(unsigned char)*len);
+		memset(q->last->next->string, 0x00, MAX_QLENGTH);
 		memcpy(q->last->next->string, string, len);
 		q->last->next->len = len;
 		q->last->next->next = NULL;
@@ -113,9 +115,12 @@ void queue_push(struct Queue* q, unsigned short* string, unsigned short len)
 	*	@retval	нет
 **/
 //
-void queue_get_front(struct Queue* q, unsigned short* string, unsigned short from, unsigned short to)
+void queue_get_front(struct Queue* q, unsigned char* string, unsigned short from, unsigned short num)
 {
-	memcpy(string, q->front->string+from, to);
+	if(from + num <= q->front->len)
+		memcpy(string, q->front->string+from, num);
+	else
+		memcpy(string, q->front->string+from, q->front->len - from);
 }
 //
 
@@ -140,8 +145,14 @@ unsigned short queue_get_frontl(struct Queue* q)
 	*	@retval	длина первой записанной строки
 **/
 //
-unsigned short queue_get_bytefrom(struct Queue* q, unsigned short index)
+unsigned char queue_get_bytefrom(struct Queue* q, unsigned short index)
 {
 	return q->front->string[index];
+}
+//
+
+unsigned char* queue_get_first_ptr(struct Queue* q)
+{
+	return &q->front->string[0];
 }
 //

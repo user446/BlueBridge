@@ -23,7 +23,6 @@
 #include "usbd_cdc_if.h"
 
 /* USER CODE BEGIN INCLUDE */
-#include "comm.h"
 /* USER CODE END INCLUDE */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -32,7 +31,8 @@
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-
+extern void Connection_RecieveCallback(uint8_t* buffer, uint32_t Len);
+extern void Connection_TransmitCallback(void);
 /* USER CODE END PV */
 
 /** @addtogroup STM32_USB_OTG_DEVICE_LIBRARY
@@ -265,6 +265,30 @@ static int8_t CDC_Receive_FS(uint8_t* Buf, uint32_t *Len)
   /* USER CODE BEGIN 6 */
   USBD_CDC_SetRxBuffer(&hUsbDeviceFS, &Buf[0]);
   USBD_CDC_ReceivePacket(&hUsbDeviceFS);
+	uint8_t in_crc[2] = {Buf[Len[0]-2], Buf[Len[0]-1]};
+	uint8_t c_crc[2] = {0};
+	uint16_t crc = 0;
+	
+	for(int i = 0; i < Len[0]-2; i++)
+		crc += Buf[i];
+	
+	c_crc[0] = (crc >> 8)&0x00FF;
+	c_crc[1] = (crc)&0x00FF;
+	
+	char answer[255] = {0};
+	
+	if(memcmp(c_crc, in_crc, 2) != 0)
+	{
+		sprintf(answer, "CRC error %s != %s\r\n", in_crc, c_crc);
+	}
+	else
+	{
+		sprintf(answer, "Packet received! %s = %s\r\n", in_crc, c_crc);
+	}
+	
+	uint8_t len = strlen(answer);
+	CDC_Transmit_FS((uint8_t*)answer, len);
+	
 	Connection_RecieveCallback(Buf, Len[0]);
   return (USBD_OK);
   /* USER CODE END 6 */

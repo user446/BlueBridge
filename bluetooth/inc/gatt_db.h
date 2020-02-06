@@ -5,6 +5,8 @@
 
 tBleStatus Add_Throughput_Service(void);
 void Attribute_Modified_CB(uint16_t handle, uint8_t data_length, uint8_t *att_data);
+void Notify_Event_Happened(uint16_t handle, uint8_t data_length, uint8_t *att_data);
+void Attribute_Change_Finished(void);
 
 extern uint16_t ServHandle, TXCharHandle, RXCharHandle;
 

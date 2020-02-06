@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <string.h>
 #include "ble_const.h" 
@@ -8,6 +7,7 @@
 #include "SDK_EVAL_Config.h"
 #include "clock.h"
 #include "throughput.h"
+#include "queue.h"
 
 #define COPY_UUID_128(uuid_struct, uuid_15, uuid_14, uuid_13, uuid_12, uuid_11, uuid_10, uuid_9, uuid_8, uuid_7, uuid_6, uuid_5, uuid_4, uuid_3, uuid_2, uuid_1, uuid_0) \
   do {\
@@ -23,6 +23,9 @@ uint16_t ServHandle, TXCharHandle, RXCharHandle;
 /* UUIDs */
 Service_UUID_t service_uuid;
 Char_UUID_t char_uuid;
+
+extern Queue q_ble_rx;
+extern Queue q_spi_rx;
 
 /*******************************************************************************
 * Function Name  : Add_Throughput_Service
@@ -42,10 +45,14 @@ uint8_t Add_Throughput_Service(void)
   */
 
   const uint8_t uuid[16]				= {0x66,0x9a,0x0c,0x20,0x00,0x08,0x96,0x9e,0xe2,0x11,0x9e,0xb1,0x00,0xf2,0x73,0xd9};
-  const uint8_t charUuid_TX[16]	= {0x66,0x9a,0x0c,0x20,0x00,0x08,0x96,0x9e,0xe2,0x11,0x9e,0xb1,0x01,0xf2,0x73,0xd9};
+	#if CLIENT
+		const uint8_t charUuid_TX[16]	= {0x66,0x9a,0x0c,0x20,0x00,0x08,0x96,0x9e,0xe2,0x11,0x9e,0xb1,0x01,0xf2,0x73,0xd9};
+	#else
+		const uint8_t charUuid_TX[16]	= {0x66,0x9a,0x0c,0x20,0x00,0x08,0x96,0x9e,0xe2,0x11,0x9e,0xb1,0x02,0xf2,0x73,0xd9};
+	#endif
 
 	Osal_MemCpy(&service_uuid.Service_UUID_128, uuid, 16);
-	ret = aci_gatt_add_service(UUID_TYPE_128, &service_uuid, PRIMARY_SERVICE, 6, &ServHandle);
+	ret = aci_gatt_add_service(UUID_TYPE_128, &service_uuid, PRIMARY_SERVICE, 7, &ServHandle);
 	if (ret != BLE_STATUS_SUCCESS) goto fail;
 
 	Osal_MemCpy(&char_uuid.Char_UUID_128, charUuid_TX, 16);
@@ -73,13 +80,27 @@ void Attribute_Modified_CB(uint16_t handle, uint8_t data_length, uint8_t *att_da
 //    for(int i = 0; i < data_length; i++)
 //      printf("%c", att_data[i]);
 //  }
-//  else if(handle == TXCharHandle + 2){        
-//    if(att_data[0] == 0x01)
-//      APP_FLAG_SET(NOTIFICATIONS_ENABLED);
-//  }
+  if(handle == TXCharHandle + 2){        
+    if(att_data[0] == 0x01)
+		{
+      APP_FLAG_SET(OTHER_ATTR_MODIFIED);
+			printf("Notifications enabled by other side!\r\n");
+		}
+  }
 //  else {
 //    printf("Unexpected handle: 0x%04d.\n",handle);
 //  }
 }
+//
 
+void Notify_Event_Happened(uint16_t handle, uint8_t data_length, uint8_t *att_data)
+{
+	queue_push(&q_ble_rx, att_data, data_length);
+}
+//
 
+void Attribute_Change_Finished(void)
+{
+	//queue_pop(&q_spi_rx);
+}
+//

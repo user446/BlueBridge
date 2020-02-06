@@ -36,10 +36,14 @@
 #define SELF_ADDRESS		0xAA, 0x00, 0x03, 0xE1, 0x80, 0x92
 #define SERVER_ADDRESS	0xBB, 0x00, 0x03, 0xE1, 0x80, 0x92
 #define ROLE						GAP_CENTRAL_ROLE
+#define SERVER_TX_CHAR	0x66,0x9a,0x0c,0x20,0x00,0x08,0x96,0x9e,0xe2,0x11,0x9e,0xb1,0x02,0xf2,0x73,0xd9
+#define SELF_TX_CHAR		0x66,0x9a,0x0c,0x20,0x00,0x08,0x96,0x9e,0xe2,0x11,0x9e,0xb1,0x01,0xf2,0x73,0xd9
 #else
 #define SELF_ADDRESS		0xBB, 0x00, 0x03, 0xE1, 0x80, 0x92
 #define CLIENT_ADDRESS	0xAA, 0x00, 0x03, 0xE1, 0x80, 0x92
 #define ROLE						GAP_PERIPHERAL_ROLE
+#define CLIENT_TX_CHAR	0x66,0x9a,0x0c,0x20,0x00,0x08,0x96,0x9e,0xe2,0x11,0x9e,0xb1,0x01,0xf2,0x73,0xd9
+#define SELF_TX_CHAR		0x66,0x9a,0x0c,0x20,0x00,0x08,0x96,0x9e,0xe2,0x11,0x9e,0xb1,0x02,0xf2,0x73,0xd9
 #endif
 
 #define CMD_BUFF_SIZE 512
@@ -87,7 +91,7 @@ uint8_t THROUGHPUT_DeviceInit(void)
   }
 
   /* Set the TX power to -2 dBm */
-  aci_hal_set_tx_power_level(1, 4);
+  aci_hal_set_tx_power_level(0x01, 0x07);
 
   /* GATT Init */
   ret = aci_gatt_init();
@@ -138,14 +142,14 @@ void Make_Connection(void)
 {  
   tBleStatus ret;
   #if CLIENT
-	//tBDAddr bdaddr = {SERVER_ADDRESS};
-	tBDAddr bdaddr = {0xBB, 0x00, 0x03, 0xE1, 0x80, 0x92};
-	ret = aci_gap_create_connection(0x0004, 0x0004, PUBLIC_ADDR, bdaddr, PUBLIC_ADDR, 0x0006, 0x0006, 0, 60, 2000 , 2000); 
-	if (ret != BLE_STATUS_SUCCESS)
-	{
-		printf("Error while starting connection: 0x%04x\r\n", ret);
+		tBDAddr bdaddr = {SERVER_ADDRESS};
+		//tBDAddr bdaddr = {0xBB, 0x00, 0x03, 0xE1, 0x80, 0x92};
+		ret = aci_gap_create_connection(0x0004, 0x0004, PUBLIC_ADDR, bdaddr, PUBLIC_ADDR, 0x0006, 0x0006, 0x0006, 60, 2000, 2000); 
+		if (ret != BLE_STATUS_SUCCESS)
+		{
+			printf("Error while starting connection: 0x%04x\r\n", ret);
 			Clock_Wait(100);        
-	}
+		}
 	#else
 		//uint8_t local_name[] = {AD_TYPE_COMPLETE_LOCAL_NAME,'B','l','u','e','C','a','r','d','i','o'};
 		uint8_t local_name[] = {AD_TYPE_COMPLETE_LOCAL_NAME, 'A', 'U', 'R', 'O', 'R', 'A', ' ', 'C', 'A', 'R', 'D', 'I', 'O'};
@@ -162,6 +166,7 @@ void Make_Connection(void)
 }
 
 BOOL search_switch = FALSE;
+BOOL notification_failure = FALSE;
 /*******************************************************************************
 * Function Name  : APP_Tick.
 * Description    : Tick to run the application state machine.
@@ -174,20 +179,36 @@ BOOL search_switch = FALSE;
   
   if(APP_FLAG(SET_CONNECTABLE))
   {
+		printf("Connecting...\r\n");
     Make_Connection();
     APP_FLAG_CLEAR(SET_CONNECTABLE);
   }
 	
-  if (APP_FLAG(CONNECTED) && !APP_FLAG(END_READ_TX_CHAR_HANDLE))
+	#if CLIENT
+		if(APP_FLAG(CONNECTED) && !APP_FLAG(EXCHANGE_CFG))
+		{
+			aci_gatt_exchange_config(connection_handle);
+		}
+	#endif
+	
+  if (APP_FLAG(CONNECTED) && !APP_FLAG(END_READ_TX_CHAR_HANDLE) 
+		#if CLIENT 
+			&& APP_FLAG(EXCHANGE_CFG)
+		#endif
+	)
   {
     if (!APP_FLAG(START_READ_TX_CHAR_HANDLE))
     {
       /* Discovery TX characteristic handle by UUID 128 bits */
 			printf("Discovering Characteristcs...\r\n");
-      const uint8_t charUuid128_TX[16] = {0x66,0x9a,0x0c,0x20,0x00,0x08,0x96,0x9e,0xe2,0x11,0x9e,0xb1,0x01,0xf2,0x73,0xd9};
+			#if CLIENT
+				const uint8_t charUuid128_TX[16] = {SERVER_TX_CHAR};
+			#else
+				const uint8_t charUuid128_TX[16] = {CLIENT_TX_CHAR};
+			#endif
 
       Osal_MemCpy(&UUID_Tx.UUID_16, charUuid128_TX, 16);
-      ret = aci_gatt_disc_char_by_uuid(connection_handle, 0x0001, 0xFFFF,UUID_TYPE_128,&UUID_Tx);
+      ret = aci_gatt_disc_char_by_uuid(connection_handle, 0x0001, 0xFFFF, UUID_TYPE_128, &UUID_Tx);
       if (ret != 0) 
         printf ("Error in aci_gatt_disc_char_by_uuid() for TX characteristic: 0x%04x\r\n", ret);
       else
@@ -205,20 +226,33 @@ BOOL search_switch = FALSE;
   {
 		printf("Enabling notifications...\r\n");
     uint8_t client_char_conf_data[] = {0x01, 0x00}; // Enable notifications
-    struct timer t;
-    Timer_Set(&t, CLOCK_SECOND*10);
+//    struct timer t;
+//    Timer_Set(&t, CLOCK_SECOND*10);
     
-    while(aci_gatt_write_char_desc(connection_handle, tx_handle+2, 2, client_char_conf_data)==BLE_STATUS_NOT_ALLOWED){ //TX_HANDLE;
-        printf("Radio module is busy\r\n");
-        if(Timer_Expired(&t)) break;
+    if(aci_gatt_write_char_desc(connection_handle, tx_handle+2, 2, client_char_conf_data) == BLE_STATUS_NOT_ALLOWED)
+		{ //TX_HANDLE;
+//        printf("Radio module is busy\r\n");
+//        if(Timer_Expired(&t)) 
+//				{
+					printf("Not allowed\r\n");
+					notification_failure = TRUE;
+//					__nop();
+//					break;
+//				}
     }
-    APP_FLAG_SET(NOTIFICATIONS_ENABLED);
+		if(notification_failure != TRUE)
+		{
+			printf("Notifications enabled!\r\n");
+			APP_FLAG_SET(NOTIFICATIONS_ENABLED);
+		}
   } 
 	
-	if(APP_FLAG(CONNECTED))
+	if(APP_FLAG(CONNECTED) 
+		&& APP_FLAG(NOTIFICATIONS_ENABLED)
+		&& APP_FLAG(OTHER_ATTR_MODIFIED))
 	{
-			if (fptr_while_connected)
-				fptr_while_connected();
+		if(fptr_while_connected)
+			fptr_while_connected();
 	}
   
 }/* end APP_Tick() */
@@ -232,21 +266,21 @@ _Bool APP_UpdateTX(uint8_t *sendbuf, uint8_t size)
 													connection_handle, 
 													ServHandle, 
 													TXCharHandle, 
-													1,		// 0x01: Notification
-													size, // Char_Length Total length
-													0,		//Value_Offset
-													size, //length 
+													1,			//0x01: Notification
+													size, 	//Char_Length Total length
+													0,			//Value_Offset
+													size, 	//length 
 													sendbuf);
 	
 		if(ret != BLE_STATUS_SUCCESS){
 			printf("Updating characteristic value failed! 0x%04x\r\n", ret);
 			return FALSE;
 		}
-		else
-		{
-			printf("Upd: %s\r\n", (char*)sendbuf);
+		else{
+			printf("Characteristic updated!\r\n");
+			Attribute_Change_Finished();
+			return TRUE;
 		}
-		return TRUE;
 	}
 	return FALSE; // Yes, If we have not sent data - we say that false! it's logical
 }
@@ -273,9 +307,10 @@ void hci_le_connection_complete_event(uint8_t Status,
 
 { 
   connection_handle = Connection_Handle;
-  
+  printf("Connection complete!\r\n");
   APP_FLAG_SET(CONNECTED);
 }/* end hci_le_connection_complete_event() */
+//
 
 /*******************************************************************************
  * Function Name  : hci_disconnection_complete_event.
@@ -296,8 +331,9 @@ void hci_disconnection_complete_event(uint8_t Status,
 
   APP_FLAG_CLEAR(START_READ_TX_CHAR_HANDLE);
   APP_FLAG_CLEAR(END_READ_TX_CHAR_HANDLE);
-  APP_FLAG_CLEAR(START_READ_RX_CHAR_HANDLE); 
-  APP_FLAG_CLEAR(END_READ_RX_CHAR_HANDLE);
+  APP_FLAG_CLEAR(EXCHANGE_CFG); 
+  APP_FLAG_CLEAR(OTHER_ATTR_MODIFIED);
+	printf("Disconnection complete\r\n");
 
 }/* end hci_disconnection_complete_event() */
 
@@ -371,6 +407,10 @@ void aci_gatt_notification_event(uint16_t Connection_Handle,
 	
     if(attr_handle == tx_handle+1)
     {
+			printf("Notification received!\r\n");
+			Notify_Event_Happened(attr_handle, Attribute_Value_Length, Attribute_Value);
+//			memcpy(input_buffer_ble, Attribute_Value, Attribute_Value_Length);
+//			ble_eor = SET;
 			//копируем входной буфер из нотификации
 //			printf("Rec:");
 //      for(int i = 0; i < Attribute_Value_Length; i++) 
@@ -394,10 +434,16 @@ void aci_gatt_proc_complete_event(uint16_t Connection_Handle,
     printf("aci_GATT_PROCEDURE_COMPLETE_Event for START_READ_TX_CHAR_HANDLE \r\n");
     APP_FLAG_SET(END_READ_TX_CHAR_HANDLE);
   }
-  else if (APP_FLAG(START_READ_RX_CHAR_HANDLE) && !APP_FLAG(END_READ_RX_CHAR_HANDLE))
-  {
-    printf("aci_GATT_PROCEDURE_COMPLETE_Event for START_READ_TX_CHAR_HANDLE \r\n");
-    APP_FLAG_SET(END_READ_RX_CHAR_HANDLE);
-  }
 }
+//
 
+void aci_att_exchange_mtu_resp_event(uint16_t Connection_Handle,
+                                     uint16_t Server_RX_MTU)
+{
+	#if CLIENT
+		printf("Server RX MTU recevied: %d\r\n", Server_RX_MTU);
+		APP_FLAG_SET(EXCHANGE_CFG);
+		__nop();
+	#endif
+}
+//

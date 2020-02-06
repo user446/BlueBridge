@@ -41,8 +41,8 @@ extern volatile int app_flags;
 /* Added flags for handling TX, RX characteristics discovery */
 #define START_READ_TX_CHAR_HANDLE 0x100 
 #define END_READ_TX_CHAR_HANDLE   0x200
-#define START_READ_RX_CHAR_HANDLE 0x400 
-#define END_READ_RX_CHAR_HANDLE   0x800
+#define EXCHANGE_CFG 							0x400 
+#define OTHER_ATTR_MODIFIED			  0x800
 /**
  * @}
  */

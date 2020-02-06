@@ -40,6 +40,8 @@ l452ceu\usbd_cdc_if.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr.h
 l452ceu\usbd_cdc_if.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr_ex.h
 l452ceu\usbd_cdc_if.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h
 l452ceu\usbd_cdc_if.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi_ex.h
+l452ceu\usbd_cdc_if.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h
+l452ceu\usbd_cdc_if.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h
 l452ceu\usbd_cdc_if.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h
 l452ceu\usbd_cdc_if.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h
 l452ceu\usbd_cdc_if.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd.h
@@ -48,5 +50,3 @@ l452ceu\usbd_cdc_if.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd_ex.
 l452ceu\usbd_cdc_if.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_core.h
 l452ceu\usbd_cdc_if.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h
 l452ceu\usbd_cdc_if.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ctlreq.h
-l452ceu\usbd_cdc_if.o: ../Core/Inc/comm.h
-l452ceu\usbd_cdc_if.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h

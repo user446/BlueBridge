@@ -28,7 +28,7 @@ These constants and variables are used from the BlueNRG-1,2 BLE stack to reserve
 #define NUM_APP_GATT_SERVICES	(2)
 
 /* Number of attributes requests from the Throughput_client demo */
-#define NUM_APP_GATT_ATTRIBUTES	(9)
+#define NUM_APP_GATT_ATTRIBUTES	(10)
 
 /* OTA characteristics maximum lenght */
 #define OTA_MAX_ATT_SIZE	(0)
@@ -64,7 +64,7 @@ These constants and variables are used from the BlueNRG-1,2 BLE stack to reserve
 #define OTA_ATT_VALUE_ARRAY_SIZE	(0)	/*No OTA service is used*/
 #endif
 /* Array size for the attribute value */
-#define ATT_VALUE_ARRAY_SIZE	(274 + OTA_ATT_VALUE_ARRAY_SIZE)
+#define ATT_VALUE_ARRAY_SIZE	(402 + OTA_ATT_VALUE_ARRAY_SIZE)
 
 /* Set the size of Flash security database */
 #define FLASH_SEC_DB_SIZE	(0X400)
@@ -72,7 +72,7 @@ These constants and variables are used from the BlueNRG-1,2 BLE stack to reserve
 #define FLASH_SERVER_DB_SIZE	(0X400)
 
 /* Set supported max value for ATT_MTU enabled by the application */
-#define APP_MAX_MTU_SIZE	(131)
+#define APP_MAX_MTU_SIZE	(134)
 #define MAX_ATT_MTU  MAX_CHAR_LEN(OTA_MAX_ATT_MTU_SIZE,  APP_MAX_MTU_SIZE) 
 
 #define MAX_ATT_SIZE    (APP_MAX_ATT_SIZE)
