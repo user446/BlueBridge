@@ -77,13 +77,15 @@ struct timer t_updater;
 Queue q_ble_rx;
 Queue q_spi_rx;
 
-uint8_t input_buffer_spi[MAX_QLENGTH] = {0};
-uint8_t output_buffer_spi[MAX_QLENGTH] = {0};
-uint8_t output_buffer_ble[MAX_QLENGTH] = {0};
+uint8_t input_buffer_spi[MAX_STRING_LENGTH] = {0};
+uint8_t output_buffer_spi[MAX_STRING_LENGTH] = {0};
+uint8_t output_buffer_ble[MAX_STRING_LENGTH] = {0};
 
-uint8_t test_buffer[MAX_QLENGTH] = {0};
+uint8_t test_buffer[MAX_STRING_LENGTH] = {0};
 
 uint8_t bluenrg_stack = 0;
+
+FlagStatus gpio_toggle = RESET;
 
 FlagStatus spi_eor = SET;
 FlagStatus spi_eot = SET;
@@ -91,8 +93,8 @@ FlagStatus spi_eot = SET;
 FlagStatus spi_receive_enabled = RESET;
 FlagStatus spi_transmit_enabled = RESET;
 
-volatile uint16_t bytes_to_receive = MAX_QLENGTH;
-volatile uint16_t bytes_to_send = MAX_QLENGTH;
+volatile uint16_t bytes_to_receive = MAX_STRING_LENGTH;
+volatile uint16_t bytes_to_send = MAX_STRING_LENGTH;
 
 volatile uint8_t inbuffer_idx = 0;
 volatile uint8_t outbuffer_idx = 0;
@@ -158,19 +160,32 @@ int main(void)
 	
 	printf("Rx queues initialized\r\n");
 	
+	Timer_Set(&t_updater, CLOCK_SECOND);
 	bluenrg_stack = BLE_STACK_CONFIGURATION;
 	
-	for(int i = 0; i < MAX_QLENGTH; i++)
-	{
-		test_buffer[i] = i;
-	}
-	GPIO_SetBits(BLE_IRQ);
   while(1) {
     /* BlueNRG-1 stack tick */
     BTLE_StackTick();
 		
 		/* Application tick */
     APP_Tick(Exchange);
+		
+		#if CLIENT
+		if(Timer_Expired(&t_updater))
+		{
+			if(gpio_toggle == RESET)
+			{
+				GPIO_SetBits(BLE_IRQ);
+				gpio_toggle = SET;
+			}
+			else
+			{
+				GPIO_ResetBits(BLE_IRQ);
+				gpio_toggle = RESET;
+			}
+			Timer_Restart(&t_updater);
+		}
+		#endif
   }
   
 } /* end main() */
@@ -178,10 +193,6 @@ int main(void)
 
 void Exchange(void)
 {
-	#if SERVER
-	queue_push(&q_spi_rx, test_buffer, MAX_QLENGTH);
-	spi_eor = SET;
-	#endif
 	if(queue_isempty(&q_spi_rx) && spi_receive_enabled == RESET)
 	{
 		SPI_ITConfig(SPI_IT_RX, ENABLE);
@@ -190,7 +201,7 @@ void Exchange(void)
 	if(!queue_isempty(&q_spi_rx) && spi_eor == SET)
 	{
 		uint8_t len = queue_get_frontl(&q_spi_rx);
-		memset(output_buffer_ble, 0, MAX_QLENGTH);
+		memset(output_buffer_ble, 0, MAX_STRING_LENGTH);
 		queue_get_front(&q_spi_rx, output_buffer_ble, 0, len);
 		APP_UpdateTX(output_buffer_ble, len);
 		queue_pop(&q_spi_rx);
@@ -200,12 +211,13 @@ void Exchange(void)
 	if(!queue_isempty(&q_ble_rx))
 	{
 		uint8_t len = queue_get_frontl(&q_ble_rx);
-		memset(output_buffer_spi, 0, MAX_QLENGTH);
+		memset(output_buffer_spi, 0, MAX_STRING_LENGTH);
 		queue_get_front(&q_ble_rx, output_buffer_spi, 0, len);
 		queue_pop(&q_ble_rx);
 		SPI_ITConfig(SPI_IT_TX, ENABLE);
 		spi_eot = RESET;
 	}
+//if(!queue_isempty(&q_ble_rx) && queue_isempty(&q_spi_rx))
 //	if(spi_eot == SET)
 //		GPIO_SetBits(BLE_IRQ);
 //	else if(spi_eot == RESET)

@@ -3,8 +3,8 @@
 
 #include <stdbool.h>
 
-#define MAX_QLENGTH 128
-
+#define MAX_STRING_LENGTH 128
+#define MAX_QLEN 10
 /**
 	*	@brief	тип элемента очереди строк
 	*	@note		
@@ -14,7 +14,7 @@ typedef struct Node
 {
 	struct Node* next; 				/// ссылка на следующий элемент
 	unsigned short len;				/// длина строки в элементе
-	unsigned char string[MAX_QLENGTH];		/// строка в элементе
+	unsigned char string[MAX_STRING_LENGTH];		/// строка в элементе
 }Node;
 
 /**
@@ -27,6 +27,7 @@ typedef struct Queue
 	struct Node* front; 	/// ссылка на следующий элемент
 	struct Node* last;		/// ссылка на первый записанный элемент
 	unsigned int size;		/// размер очереди
+	unsigned short max_len;		/// максимальная длина очереди
 }Queue;
 
 void queue_init(struct Queue* q);
