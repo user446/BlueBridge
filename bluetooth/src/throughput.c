@@ -144,7 +144,7 @@ void Make_Connection(void)
   #if CLIENT
 		tBDAddr bdaddr = {SERVER_ADDRESS};
 		//tBDAddr bdaddr = {0xBB, 0x00, 0x03, 0xE1, 0x80, 0x92};
-		ret = aci_gap_create_connection(0x0004, 0x0004, PUBLIC_ADDR, bdaddr, PUBLIC_ADDR, 0x0006, 0x0006, 0x0006, 60, 2000, 2000); 
+		ret = aci_gap_create_connection(0x0004, 0x0004, PUBLIC_ADDR, bdaddr, PUBLIC_ADDR, 0x0006, 0x0006, 0x0000, 0x000A, 2000, 2000); 
 		if (ret != BLE_STATUS_SUCCESS)
 		{
 			printf("Error while starting connection: 0x%04x\r\n", ret);
@@ -226,30 +226,25 @@ BOOL notification_failure = FALSE;
   {
 		printf("Enabling notifications...\r\n");
     uint8_t client_char_conf_data[] = {0x01, 0x00}; // Enable notifications
-//    struct timer t;
-//    Timer_Set(&t, CLOCK_SECOND*10);
-    
-    if(aci_gatt_write_char_desc(connection_handle, tx_handle+2, 2, client_char_conf_data) == BLE_STATUS_NOT_ALLOWED)
-		{ //TX_HANDLE;
-//        printf("Radio module is busy\r\n");
-//        if(Timer_Expired(&t)) 
-//				{
-					printf("Not allowed\r\n");
-					notification_failure = TRUE;
-//					__nop();
-//					break;
-//				}
-    }
-		if(notification_failure != TRUE)
-		{
-			printf("Notifications enabled!\r\n");
-			APP_FLAG_SET(NOTIFICATIONS_ENABLED);
-		}
+    struct timer t;
+    Timer_Set(&t, CLOCK_SECOND*10);
+		
+      while(aci_gatt_write_char_desc(connection_handle, tx_handle + 2, 2, client_char_conf_data)==BLE_STATUS_NOT_ALLOWED) { 
+        printf("Radio is busy...\r\n");
+        if(Timer_Expired(&t)) 
+				{
+					printf("Result: Failed.\r\n");
+					break;
+				}
+      }
+      APP_FLAG_SET(NOTIFICATIONS_ENABLED);
+			printf("Notifications enabled.\r\n");
   } 
 	
 	if(APP_FLAG(CONNECTED) 
 		&& APP_FLAG(NOTIFICATIONS_ENABLED)
-		&& APP_FLAG(OTHER_ATTR_MODIFIED))
+		&& APP_FLAG(OTHER_ATTR_MODIFIED)
+	)
 	{
 		if(fptr_while_connected)
 			fptr_while_connected();
@@ -277,7 +272,6 @@ _Bool APP_UpdateTX(uint8_t *sendbuf, uint8_t size)
 			return FALSE;
 		}
 		else{
-			printf("Characteristic updated!\r\n");
 			Attribute_Change_Finished();
 			return TRUE;
 		}
@@ -308,6 +302,12 @@ void hci_le_connection_complete_event(uint8_t Status,
 { 
   connection_handle = Connection_Handle;
   printf("Connection complete!\r\n");
+	printf("Connection info:\r\nStatus:%d, Peer Address:", Status);
+	for(int i = 0; i < 6; i++)
+	{
+		printf("%X",Peer_Address[i]);
+	}
+	printf("\r\n");
   APP_FLAG_SET(CONNECTED);
 }/* end hci_le_connection_complete_event() */
 //
@@ -333,6 +333,8 @@ void hci_disconnection_complete_event(uint8_t Status,
   APP_FLAG_CLEAR(END_READ_TX_CHAR_HANDLE);
   APP_FLAG_CLEAR(EXCHANGE_CFG); 
   APP_FLAG_CLEAR(OTHER_ATTR_MODIFIED);
+	hci_disconnect(connection_handle, Reason);
+	
 	printf("Disconnection complete\r\n");
 
 }/* end hci_disconnection_complete_event() */
@@ -384,7 +386,7 @@ void aci_gatt_disc_read_char_by_uuid_resp_event(uint16_t Connection_Handle,
   if (APP_FLAG(START_READ_TX_CHAR_HANDLE) && !APP_FLAG(END_READ_TX_CHAR_HANDLE))
   {
     tx_handle = Attribute_Handle;
-    printf("TX Char Handle 0x%04x\r\n", tx_handle);
+    printf("Received TX Char Handle 0x%04x\r\n", tx_handle);
   }
 }
 
@@ -407,15 +409,7 @@ void aci_gatt_notification_event(uint16_t Connection_Handle,
 	
     if(attr_handle == tx_handle+1)
     {
-			printf("Notification received!\r\n");
 			Notify_Event_Happened(attr_handle, Attribute_Value_Length, Attribute_Value);
-//			memcpy(input_buffer_ble, Attribute_Value, Attribute_Value_Length);
-//			ble_eor = SET;
-			//копируем входной буфер из нотификации
-//			printf("Rec:");
-//      for(int i = 0; i < Attribute_Value_Length; i++) 
-//          printf("%c", Attribute_Value[i]);
-//			printf("\r\n");
     }
 }
 

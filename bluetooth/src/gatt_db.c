@@ -44,10 +44,11 @@ uint8_t Add_Throughput_Service(void)
   D973F202-B19E-11E2-9E96-0800200C9A66
   */
 
-  const uint8_t uuid[16]				= {0x66,0x9a,0x0c,0x20,0x00,0x08,0x96,0x9e,0xe2,0x11,0x9e,0xb1,0x00,0xf2,0x73,0xd9};
 	#if CLIENT
+		const uint8_t uuid[16]				= {0x66,0x9a,0x0c,0x20,0x00,0x08,0x96,0x9e,0xe2,0x11,0x9e,0xb1,0x00,0xf2,0x73,0xd9};
 		const uint8_t charUuid_TX[16]	= {0x66,0x9a,0x0c,0x20,0x00,0x08,0x96,0x9e,0xe2,0x11,0x9e,0xb1,0x01,0xf2,0x73,0xd9};
 	#else
+		const uint8_t uuid[16]				= {0x66,0x9a,0x0c,0x20,0x00,0x08,0x96,0x9e,0xe2,0x11,0x9e,0xb2,0x00,0xf2,0x73,0xd9};
 		const uint8_t charUuid_TX[16]	= {0x66,0x9a,0x0c,0x20,0x00,0x08,0x96,0x9e,0xe2,0x11,0x9e,0xb1,0x02,0xf2,0x73,0xd9};
 	#endif
 
@@ -76,31 +77,27 @@ fail:
 *******************************************************************************/
 void Attribute_Modified_CB(uint16_t handle, uint8_t data_length, uint8_t *att_data)
 {
-//  if(handle == RXCharHandle + 1){
-//    for(int i = 0; i < data_length; i++)
-//      printf("%c", att_data[i]);
-//  }
   if(handle == TXCharHandle + 2){        
     if(att_data[0] == 0x01)
 		{
-      APP_FLAG_SET(OTHER_ATTR_MODIFIED);
-			printf("Notifications enabled by other side!\r\n");
+      //APP_FLAG_SET(NOTIFICATIONS_ENABLED);
+			APP_FLAG_SET(OTHER_ATTR_MODIFIED);
+			printf("Attribute TX modified callback\r\n");
 		}
   }
-//  else {
-//    printf("Unexpected handle: 0x%04d.\n",handle);
-//  }
 }
 //
-
+volatile int notification_counter = 0;
 void Notify_Event_Happened(uint16_t handle, uint8_t data_length, uint8_t *att_data)
 {
+	printf("Notification received: %d\r", ++notification_counter);
 	queue_push(&q_ble_rx, att_data, data_length);
 }
 //
 
 void Attribute_Change_Finished(void)
 {
+	//printf("Characteristic updated!\r\n");
 	//queue_pop(&q_spi_rx);
 }
 //

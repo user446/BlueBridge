@@ -4,7 +4,7 @@
 #include <stdbool.h>
 
 #define MAX_STRING_LENGTH 128
-#define MAX_QLEN 10
+#define MAX_QLEN 5
 /**
 	*	@brief	тип элемента очереди строк
 	*	@note		

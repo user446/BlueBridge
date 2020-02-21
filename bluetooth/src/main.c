@@ -52,14 +52,16 @@
 #define SPI_OUT_Pin	GPIO_Pin_2
 #define SPI_CS_Pin	GPIO_Pin_11
 #define SPI_CLK_Pin	GPIO_Pin_8
-#define BLE_IRQ			GPIO_Pin_6
+
+const uint32_t BLE_IRQ = GPIO_Pin_6;
 #else
 #include "Throughput_server_config.h"
 #define SPI_IN_Pin	GPIO_Pin_3
 #define SPI_OUT_Pin	GPIO_Pin_2
-#define SPI_CS_Pin	GPIO_Pin_11
+#define SPI_CS_Pin	GPIO_Pin_1
 #define SPI_CLK_Pin	GPIO_Pin_0
-#define BLE_IRQ			GPIO_Pin_4
+
+const uint32_t BLE_IRQ = GPIO_Pin_6;
 #endif
 
 #include "queue.h"
@@ -106,6 +108,7 @@ void InitiateSPIRec(void);
 _Bool processSPI(void);
 _Bool processAttributes(Queue rx, Queue tx);
 void Exchange(void);
+void Exchange_v2(void);
 void SPI_Slave_Configuration(void);
 /* Private functions ---------------------------------------------------------*/
 uint32_t Timer_Elapsed(struct timer *t)
@@ -160,68 +163,175 @@ int main(void)
 	
 	printf("Rx queues initialized\r\n");
 	
-	Timer_Set(&t_updater, CLOCK_SECOND);
+	Timer_Set(&t_updater, CLOCK_SECOND/1000);
 	bluenrg_stack = BLE_STACK_CONFIGURATION;
+	
+	GPIO_SetBits(BLE_IRQ);         
 	
   while(1) {
     /* BlueNRG-1 stack tick */
     BTLE_StackTick();
 		
 		/* Application tick */
-    APP_Tick(Exchange);
-		
-		#if CLIENT
-		if(Timer_Expired(&t_updater))
-		{
-			if(gpio_toggle == RESET)
-			{
-				GPIO_SetBits(BLE_IRQ);
-				gpio_toggle = SET;
-			}
-			else
-			{
-				GPIO_ResetBits(BLE_IRQ);
-				gpio_toggle = RESET;
-			}
-			Timer_Restart(&t_updater);
-		}
-		#endif
+    APP_Tick(Exchange_v2);
   }
   
 } /* end main() */
 //
 
+/**
+  * @brief 	Функция переброса данных из SPI периферии в BLE
+						Является более-менее рабочей, отправка/прием по SPI раздельны
+						См. примеры в DK 3.1.0 - SPI DMA Master/Slave
+  */
 void Exchange(void)
 {
-	if(queue_isempty(&q_spi_rx) && spi_receive_enabled == RESET)
+	#if SERVER
+	if(DMA_CH_SPI_RX->CCR_b.EN == RESET && queue_isempty(&q_spi_rx))
 	{
-		SPI_ITConfig(SPI_IT_RX, ENABLE);
-		spi_receive_enabled = SET;
+		DMA_CH_SPI_RX->CCR_b.EN = SET;
+//		spi_eot = RESET;
 	}
-	if(!queue_isempty(&q_spi_rx) && spi_eor == SET)
+	if(DMA_CH_SPI_TX->CCR_b.EN == RESET && queue_isempty(&q_spi_rx))
 	{
-		uint8_t len = queue_get_frontl(&q_spi_rx);
-		memset(output_buffer_ble, 0, MAX_STRING_LENGTH);
-		queue_get_front(&q_spi_rx, output_buffer_ble, 0, len);
-		APP_UpdateTX(output_buffer_ble, len);
-		queue_pop(&q_spi_rx);
-		SPI_ITConfig(SPI_IT_RX, ENABLE);
+		DMA_CH_SPI_TX->CCR_b.EN = SET;
+//		spi_eot = RESET;
+	}
+	#else
+//	if(DMA_CH_SPI_RX->CCR_b.EN == SET && queue_isempty(&q_spi_rx))
+//	{
+//		DMA_CH_SPI_RX->CCR_b.EN = RESET;
+////		spi_eot = RESET;
+//	}
+//	if(DMA_CH_SPI_TX->CCR_b.EN == SET && queue_isempty(&q_spi_rx))
+//	{
+//		DMA_CH_SPI_TX->CCR_b.EN = RESET;
+////		spi_eot = RESET;
+//	}
+	#endif
+	
+	if(Timer_Expired(&t_updater) && GPIO_ReadBit(BLE_IRQ) == Bit_SET)
+	{
+		GPIO_ResetBits(BLE_IRQ);
+		Timer_Restart(&t_updater);
+	}
+	
+	if(!queue_isempty(&q_spi_rx) && DMA_CH_SPI_RX->CCR_b.EN == RESET && spi_eor == SET)
+	{
 		spi_eor = RESET;
+		memset(output_buffer_ble, 0, MAX_STRING_LENGTH);
+		queue_get_front(&q_spi_rx, output_buffer_ble, 0, MAX_STRING_LENGTH);
+		queue_pop(&q_spi_rx);
+		#if CLIENT
+		for(int i = 0; i < MAX_STRING_LENGTH; i++)
+		{
+			printf("%c", output_buffer_ble[i]);
+		}
+		printf("\r\n");
+		#endif
+		APP_UpdateTX(output_buffer_ble, MAX_STRING_LENGTH);
+		
+		DMA_CH_SPI_RX->CCR_b.EN = SET;
 	}
-	if(!queue_isempty(&q_ble_rx))
+	if(!queue_isempty(&q_ble_rx) && DMA_CH_SPI_TX->CCR_b.EN == RESET && spi_eot == SET)
 	{
-		uint8_t len = queue_get_frontl(&q_ble_rx);
-		memset(output_buffer_spi, 0, MAX_STRING_LENGTH);
-		queue_get_front(&q_ble_rx, output_buffer_spi, 0, len);
-		queue_pop(&q_ble_rx);
-		SPI_ITConfig(SPI_IT_TX, ENABLE);
 		spi_eot = RESET;
+		memset(output_buffer_spi, 0, MAX_STRING_LENGTH);
+		queue_get_front(&q_ble_rx, output_buffer_spi, 0, MAX_STRING_LENGTH);
+		queue_pop(&q_ble_rx);
+		#if CLIENT
+//		for(int i = 0; i < MAX_STRING_LENGTH; i++)
+//		{
+//			printf("%c", output_buffer_spi[i]);
+//		}
+		#endif
+		GPIO_SetBits(BLE_IRQ);
+		DMA_CH_SPI_TX->CCR_b.EN = SET;
 	}
-//if(!queue_isempty(&q_ble_rx) && queue_isempty(&q_spi_rx))
-//	if(spi_eot == SET)
-//		GPIO_SetBits(BLE_IRQ);
-//	else if(spi_eot == RESET)
-//		GPIO_ResetBits(BLE_IRQ);
+}
+//
+
+/**
+  * @brief 	Функция переброса данных из SPI периферии в BLE (вторая версия)
+						Недоделана, попытка сделать одновременный прием-передачу по SPI с отправкой на BLE.
+						См. примеры в DK 3.1.0 - SPI DMA Master/Slave
+						Возможно было бы проще полностью переделать.
+  */
+void Exchange_v2(void)
+{
+	if(GPIO_ReadBit(SPI_CS_Pin) == Bit_SET)
+	{
+		GPIO_ResetBits(BLE_IRQ);
+	}
+	
+		if(!queue_isempty(&q_ble_rx) && !queue_isempty(&q_spi_rx))
+		{
+			memset(output_buffer_spi, 0, MAX_STRING_LENGTH);
+			queue_get_front(&q_ble_rx, output_buffer_spi, 0, MAX_STRING_LENGTH);
+			queue_pop(&q_ble_rx);
+			
+			for(int i = 0; i < MAX_STRING_LENGTH; i++)
+			{
+				printf("%c", output_buffer_spi[i]);
+			}
+			if(!queue_isempty(&q_spi_rx))
+			{
+				memset(output_buffer_ble, 0, MAX_STRING_LENGTH);
+				queue_get_front(&q_spi_rx, output_buffer_ble, 0, MAX_STRING_LENGTH);
+				queue_pop(&q_spi_rx);
+				APP_UpdateTX(output_buffer_ble, MAX_STRING_LENGTH);
+			}
+			GPIO_SetBits(BLE_IRQ);
+			
+			DMA_CH_SPI_TX->CMAR = (uint32_t)output_buffer_spi[0];
+			DMA_CH_SPI_TX->CNDTR = (uint32_t)MAX_STRING_LENGTH;
+			
+			DMA_CH_SPI_TX->CCR_b.EN = SET;
+			DMA_CH_SPI_RX->CCR_b.EN = SET;
+		}
+		else if(!queue_isempty(&q_ble_rx) && queue_isempty(&q_spi_rx))
+		{
+			memset(output_buffer_spi, 0, MAX_STRING_LENGTH);
+			queue_get_front(&q_ble_rx, output_buffer_spi, 0, MAX_STRING_LENGTH);
+			queue_pop(&q_ble_rx);
+			
+			printf("Notify received:");
+			for(int i = 0; i < MAX_STRING_LENGTH; i++)
+			{
+				printf("%c", output_buffer_spi[i]);
+			}
+			printf("\r\n");
+			GPIO_SetBits(BLE_IRQ);
+			
+			DMA_CH_SPI_TX->CMAR = (uint32_t)output_buffer_spi[0];
+			DMA_CH_SPI_TX->CNDTR = (uint32_t)MAX_STRING_LENGTH;
+			
+			DMA_CH_SPI_TX->CCR_b.EN = SET;
+			//queue_push(&q_spi_rx, (uint8_t*)"Blablabla", MAX_STRING_LENGTH);
+		}
+		else if(queue_isempty(&q_ble_rx) && !queue_isempty(&q_spi_rx))
+		{
+			memset(output_buffer_ble, 0, MAX_STRING_LENGTH);
+			queue_get_front(&q_spi_rx, output_buffer_ble, 0, MAX_STRING_LENGTH);
+			queue_pop(&q_spi_rx);
+			APP_UpdateTX(output_buffer_ble, MAX_STRING_LENGTH);
+			printf("Notify sent:");
+			for(int i = 0; i < MAX_STRING_LENGTH; i++)
+			{
+				printf("%c", output_buffer_ble[i]);
+			}
+			printf("\r\n");
+			memset(input_buffer_spi, 0, MAX_STRING_LENGTH);
+			DMA_CH_SPI_RX->CCR_b.EN = SET;
+		}
+		
+	if(DMA_CH_SPI_TX->CCR_b.EN == RESET && DMA_CH_SPI_RX->CCR_b.EN == RESET)
+	{
+		//memset(output_buffer_spi, 0, MAX_STRING_LENGTH);
+		memset(input_buffer_spi, 0, MAX_STRING_LENGTH);
+		DMA_CH_SPI_TX->CCR_b.EN = SET;
+		DMA_CH_SPI_RX->CCR_b.EN = SET;
+	}
 }
 //
 
@@ -242,6 +352,7 @@ void SPI_Slave_Configuration(void)
   SPI_InitType SPI_InitStructure;
   GPIO_InitType GPIO_InitStructure;
   NVIC_InitType NVIC_InitStructure;
+	DMA_InitType DMA_InitStructure;
 	
   /* Enable SPI and GPIO clocks */
   SysCtrl_PeripheralClockCmd(CLOCK_PERIPH_GPIO | CLOCK_PERIPH_SPI, ENABLE);   
@@ -292,10 +403,51 @@ void SPI_Slave_Configuration(void)
   SPI_RxFifoInterruptLevelConfig(SPI_FIFO_LEV_1);
 	
   /* Enable the DMA Interrupt */
-  NVIC_InitStructure.NVIC_IRQChannel = SPI_IRQn;
-  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = LOW_PRIORITY;
+//  NVIC_InitStructure.NVIC_IRQChannel = SPI_IRQn;
+//  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = LOW_PRIORITY;
+//  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+//  NVIC_Init(&NVIC_InitStructure); 
+
+	SysCtrl_PeripheralClockCmd(CLOCK_PERIPH_DMA, ENABLE);
+
+  /* Configure DMA SPI TX channel */
+  DMA_InitStructure.DMA_PeripheralBaseAddr = SPI_DR_BASE_ADDR;
+  DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)output_buffer_spi[0];  
+  DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralDST;
+  DMA_InitStructure.DMA_BufferSize = (uint32_t)MAX_STRING_LENGTH;  
+  DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Enable;
+  DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;    
+  DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Byte;
+  DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_Byte;
+  DMA_InitStructure.DMA_Mode = DMA_Mode_Circular;
+  DMA_InitStructure.DMA_Priority = DMA_Priority_Medium;
+  DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;  
+  DMA_Init(DMA_CH_SPI_TX, &DMA_InitStructure);
+	DMA_Cmd(DMA_CH_SPI_TX, ENABLE);
+    
+  /* Configure DMA SPI RX channel */
+  DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)input_buffer_spi[0];  
+  DMA_InitStructure.DMA_BufferSize = (uint32_t)MAX_STRING_LENGTH;  
+  DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralSRC;
+  DMA_InitStructure.DMA_Mode = DMA_Mode_Circular;
+  DMA_Init(DMA_CH_SPI_RX, &DMA_InitStructure);
+  DMA_Cmd(DMA_CH_SPI_RX, ENABLE);
+  
+  /* Enable SPI_TX/SPI_RX DMA requests */
+  SPI_DMACmd(SPI_DMAReq_Tx | SPI_DMAReq_Rx, ENABLE);
+  
+  /* Enable DMA_CH_UART_TX Transfer Complete interrupt */
+  DMA_FlagConfig(DMA_CH_SPI_TX, DMA_FLAG_TC, ENABLE);
+	DMA_FlagConfig(DMA_CH_SPI_RX, DMA_FLAG_TC, ENABLE);
+	DMA_CH_SPI_TX->CCR_b.EN = RESET;
+	DMA_CH_SPI_RX->CCR_b.EN = RESET;
+  
+  /* Enable the USARTx Interrupt */
+  NVIC_InitStructure.NVIC_IRQChannel = DMA_IRQn;
+  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = HIGH_PRIORITY;
   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-  NVIC_Init(&NVIC_InitStructure); 
+  NVIC_Init(&NVIC_InitStructure);  
+	
 	
   /* Enable SPI functionality */
   SPI_Cmd(ENABLE);

@@ -29,6 +29,8 @@
 #include "SDK_EVAL_Com.h"
 #include "clock.h"
 #include "queue.h"
+#include "app_state.h"
+#include "string.h"
 
 /** @addtogroup BlueNRG1_StdPeriph_Examples
   * @{
@@ -63,6 +65,7 @@ volatile uint8_t buffer_spi_used = 0;
 extern FlagStatus spi_eor;
 extern FlagStatus spi_eot;
 extern FlagStatus spi_receive_enabled;
+extern FlagStatus spi_transmit_enabled;
 
 extern volatile  uint16_t bytes_to_receive;
 extern volatile  uint16_t bytes_to_send;
@@ -72,6 +75,7 @@ extern uint8_t output_buffer_spi[128];
 
 extern volatile  uint8_t inbuffer_idx;
 extern volatile  uint8_t outbuffer_idx;
+extern const uint32_t BLE_IRQ;
 
 extern Queue q_ble_rx;
 extern Queue q_spi_rx;
@@ -135,31 +139,71 @@ void GPIO_Handler(void)
 
 void SPI_Handler(void)
 {
-	/* Check if SPI RX interrupt event occured */
-  if(SPI_GetITStatus(SPI_IT_RX) == SET) 
-	{
-		input_buffer_spi[inbuffer_idx++] = SPI_ReceiveData();
-		if(bytes_to_receive == inbuffer_idx)
-			{
-				SPI_ITConfig(SPI_IT_RX , DISABLE);
-				queue_push(&q_spi_rx, input_buffer_spi, bytes_to_receive);
-				inbuffer_idx = 0;
-				spi_eor = SET;
-				spi_receive_enabled = RESET;
-			}
-		SPI_ClearITPendingBit(SPI_IT_RX);
-  }
-	if(SPI_GetITStatus(SPI_IT_TX) == SET)
-	{
-		SPI_SendData(output_buffer_spi[outbuffer_idx++]);
-		if(bytes_to_send == outbuffer_idx)
-			{
-				SPI_ITConfig(SPI_IT_TX , DISABLE);
-				outbuffer_idx = 0;
-				spi_eot = SET;
-			}
-		SPI_ClearITPendingBit(SPI_IT_TX);
-	}
+//	/* Check if SPI RX interrupt event occured */
+//  if(SPI_GetITStatus(SPI_IT_RX) == SET && spi_receive_enabled == SET) 
+//	{
+//		SPI_ClearITPendingBit(SPI_IT_RX);
+//		input_buffer_spi[inbuffer_idx++] = SPI_ReceiveData();
+//		SPI_ITConfig(SPI_IT_RX , DISABLE);
+//		spi_receive_enabled = RESET;
+//		if(bytes_to_receive == inbuffer_idx)
+//			{
+//				queue_push(&q_spi_rx, input_buffer_spi, bytes_to_receive);
+//				inbuffer_idx = 0;
+//				spi_eor = SET;
+//			}
+//  }
+//	if(SPI_GetITStatus(SPI_IT_TX) == SET && spi_transmit_enabled == SET)
+//	{
+//		SPI_ClearITPendingBit(SPI_IT_TX);
+//		SPI_SendData(output_buffer_spi[outbuffer_idx++]);
+//		SPI_ITConfig(SPI_IT_TX , DISABLE);
+//		spi_transmit_enabled = RESET;
+//		if(bytes_to_send == outbuffer_idx)
+//			{
+//				GPIO_ResetBits(GPIO_Pin_6);
+//				outbuffer_idx = 0;
+//				spi_eot = SET;
+//			}
+//	}
+}
+//
+
+/**
+  * @brief 	Обработка прерывания по DMA SPI
+  */
+void DMA_Callback(void)
+{
+			/* Check DMA_CH_UART_TX Transfer Complete interrupt */
+		if(DMA_GetFlagStatus(DMA_CH_SPI_TX_IT_TC))
+		{
+			DMA_ClearFlag(DMA_CH_SPI_TX_IT_TC);
+			
+			DMA_CH_SPI_TX->CCR_b.EN = RESET;
+		}
+		if(DMA_GetFlagStatus(DMA_CH_SPI_RX_IT_TC))
+		{
+			DMA_ClearFlag(DMA_CH_SPI_RX_IT_TC);
+			spi_eor = SET;
+			if(APP_FLAG(CONNECTED) 
+				&& APP_FLAG(NOTIFICATIONS_ENABLED)
+				&& APP_FLAG(OTHER_ATTR_MODIFIED)
+				)
+				{
+					queue_push(&q_spi_rx, input_buffer_spi, bytes_to_receive);
+					memset(input_buffer_spi, 0, MAX_STRING_LENGTH);
+				}
+			DMA_CH_SPI_RX->CCR_b.EN = RESET;		
+		}
+}
+//
+
+/**
+  * @brief  This function handles DMA Handler.
+  */
+void DMA_Handler(void)
+{
+	DMA_Callback();
 }
 //
 

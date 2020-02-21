@@ -1,0 +1,20 @@
+
+
+send_to_ble(char* msg, int len);
+bool check_datain();
+
+/// return length of message;
+int recv_from_ble(char *msg, int max_buf_len);
+
+send 
+	CS_on						 CS_off
+L		   'S' 1 2 3 4 5 6 7 8 9 10 11 12 13
+BE			0 0 0 0 0 0 0 0 0 0 0   0  0  0
+	
+	
+recv 
+	CS_on						   CS_off
+		'R' 0  0 0 0 0 0 0 0 0 0 0
+		 0	120 1 2 3 4 5 6 7 8 9 10 
+		 
+		 

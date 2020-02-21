@@ -15,13 +15,10 @@
 //
 void queue_init(struct Queue* q)
 {
-//	q->front = (struct Node*) malloc(sizeof(struct Node));
-//	q->last = (struct Node*) malloc(sizeof(struct Node));
+	queue_clear(q);
 	q->front = NULL;
 	q->last = NULL;
 	q->max_len = MAX_QLEN;
-//	free(q->front);
-//	free(q->last);
 	q->size = 0;
 }
 //
@@ -49,10 +46,15 @@ void queue_clear(struct Queue* q)
 //
 void queue_pop(struct Queue* q)
 {
-	q->size--;
-	struct Node* tmp = q->front;
-	q->front = q->front->next;
-	free(tmp);
+	if(q->size > 0)
+	{
+		q->size--;
+		struct Node* tmp = q->front;
+		q->front = q->front->next;
+		if(q->front == NULL)
+			q->front->next = NULL;
+		free(tmp);
+	}
 }
 //
 
@@ -80,12 +82,14 @@ bool queue_isempty(struct Queue* q)
 //
 void queue_push(struct Queue* q, unsigned char* string, unsigned short len)
 {
+	if(q->size + 1 > q->max_len)
+	{
+		queue_pop(q);
+	}
 	q->size++;
 	if(q->front == NULL)
 	{
 		q->front = (struct Node*) malloc(sizeof(struct Node));
-		//q->front->string = (unsigned short*)malloc(len);
-		//q->front->string = (unsigned char*)malloc(sizeof(unsigned char)*MAX_QLENGTH);
 		memset(q->front->string, 0x00, MAX_STRING_LENGTH);
 		memcpy(q->front->string, string, len);
 		q->front->len = len;
@@ -95,8 +99,6 @@ void queue_push(struct Queue* q, unsigned char* string, unsigned short len)
 	else
 	{
 		q->last->next = (struct Node*) malloc(sizeof(struct Node));
-		//q->last->next->string = (unsigned short*)malloc(len);
-		//q->last->next->string = (unsigned char*)malloc(sizeof(unsigned char)*len);
 		memset(q->last->next->string, 0x00, MAX_STRING_LENGTH);
 		memcpy(q->last->next->string, string, len);
 		q->last->next->len = len;
@@ -118,10 +120,7 @@ void queue_push(struct Queue* q, unsigned char* string, unsigned short len)
 //
 void queue_get_front(struct Queue* q, unsigned char* string, unsigned short from, unsigned short num)
 {
-	if(from + num <= q->front->len)
-		memcpy(string, q->front->string+from, num);
-	else
-		memcpy(string, q->front->string+from, q->front->len - from);
+	memcpy(string, q->front->string+from, num);
 }
 //
 
