@@ -180,6 +180,7 @@ void DMA_Callback(void)
 			DMA_ClearFlag(DMA_CH_SPI_TX_IT_TC);
 			
 			DMA_CH_SPI_TX->CCR_b.EN = RESET;
+			DMA_CH_SPI_RX->CCR_b.EN = RESET;
 		}
 		if(DMA_GetFlagStatus(DMA_CH_SPI_RX_IT_TC))
 		{
@@ -193,7 +194,8 @@ void DMA_Callback(void)
 					queue_push(&q_spi_rx, input_buffer_spi, bytes_to_receive);
 					memset(input_buffer_spi, 0, MAX_STRING_LENGTH);
 				}
-			DMA_CH_SPI_RX->CCR_b.EN = RESET;		
+			DMA_CH_SPI_TX->CCR_b.EN = RESET;
+			DMA_CH_SPI_RX->CCR_b.EN = RESET;
 		}
 }
 //

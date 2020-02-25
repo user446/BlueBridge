@@ -307,6 +307,7 @@ void Exchange_v2(void)
 			DMA_CH_SPI_TX->CNDTR = (uint32_t)MAX_STRING_LENGTH;
 			
 			DMA_CH_SPI_TX->CCR_b.EN = SET;
+			DMA_CH_SPI_RX->CCR_b.EN = SET;
 			//queue_push(&q_spi_rx, (uint8_t*)"Blablabla", MAX_STRING_LENGTH);
 		}
 		else if(queue_isempty(&q_ble_rx) && !queue_isempty(&q_spi_rx))
@@ -323,6 +324,7 @@ void Exchange_v2(void)
 			printf("\r\n");
 			memset(input_buffer_spi, 0, MAX_STRING_LENGTH);
 			DMA_CH_SPI_RX->CCR_b.EN = SET;
+			DMA_CH_SPI_TX->CCR_b.EN = SET;
 		}
 		
 	if(DMA_CH_SPI_TX->CCR_b.EN == RESET && DMA_CH_SPI_RX->CCR_b.EN == RESET)
@@ -399,8 +401,8 @@ void SPI_Slave_Configuration(void)
 	SPI_EndianFormatTransmission(SPI_ENDIAN_MSByte_MSBit);
 	
   /* Configure the level of FIFO for interrupt */
-  SPI_TxFifoInterruptLevelConfig(SPI_FIFO_LEV_1);
-  SPI_RxFifoInterruptLevelConfig(SPI_FIFO_LEV_1);
+//  SPI_TxFifoInterruptLevelConfig(SPI_FIFO_LEV_1);
+//  SPI_RxFifoInterruptLevelConfig(SPI_FIFO_LEV_1);
 	
   /* Enable the DMA Interrupt */
 //  NVIC_InitStructure.NVIC_IRQChannel = SPI_IRQn;
@@ -412,10 +414,10 @@ void SPI_Slave_Configuration(void)
 
   /* Configure DMA SPI TX channel */
   DMA_InitStructure.DMA_PeripheralBaseAddr = SPI_DR_BASE_ADDR;
-  DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)output_buffer_spi[0];  
+  DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)output_buffer_spi;  
   DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralDST;
   DMA_InitStructure.DMA_BufferSize = (uint32_t)MAX_STRING_LENGTH;  
-  DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Enable;
+  DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
   DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;    
   DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Byte;
   DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_Byte;
@@ -426,7 +428,8 @@ void SPI_Slave_Configuration(void)
 	DMA_Cmd(DMA_CH_SPI_TX, ENABLE);
     
   /* Configure DMA SPI RX channel */
-  DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)input_buffer_spi[0];  
+	DMA_InitStructure.DMA_PeripheralBaseAddr = SPI_DR_BASE_ADDR;
+  DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)input_buffer_spi;  
   DMA_InitStructure.DMA_BufferSize = (uint32_t)MAX_STRING_LENGTH;  
   DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralSRC;
   DMA_InitStructure.DMA_Mode = DMA_Mode_Circular;
@@ -439,8 +442,8 @@ void SPI_Slave_Configuration(void)
   /* Enable DMA_CH_UART_TX Transfer Complete interrupt */
   DMA_FlagConfig(DMA_CH_SPI_TX, DMA_FLAG_TC, ENABLE);
 	DMA_FlagConfig(DMA_CH_SPI_RX, DMA_FLAG_TC, ENABLE);
-	DMA_CH_SPI_TX->CCR_b.EN = RESET;
-	DMA_CH_SPI_RX->CCR_b.EN = RESET;
+//	DMA_CH_SPI_TX->CCR_b.EN = RESET;
+//	DMA_CH_SPI_RX->CCR_b.EN = RESET;
   
   /* Enable the USARTx Interrupt */
   NVIC_InitStructure.NVIC_IRQChannel = DMA_IRQn;
