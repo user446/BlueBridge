@@ -264,75 +264,83 @@ void Exchange_v2(void)
 		GPIO_ResetBits(BLE_IRQ);
 	}
 	
-		if(!queue_isempty(&q_ble_rx) && !queue_isempty(&q_spi_rx))
+//		if(!queue_isempty(&q_ble_rx) && !queue_isempty(&q_spi_rx))
+//		{
+//			memset(output_buffer_spi, 0, MAX_STRING_LENGTH);
+//			queue_get_front(&q_ble_rx, output_buffer_spi, 0, MAX_STRING_LENGTH);
+//			queue_pop(&q_ble_rx);
+//			
+//			for(int i = 0; i < MAX_STRING_LENGTH; i++)
+//			{
+//				printf("%c", output_buffer_spi[i]);
+//			}
+//			if(!queue_isempty(&q_spi_rx))
+//			{
+//				memset(output_buffer_ble, 0, MAX_STRING_LENGTH);
+//				queue_get_front(&q_spi_rx, output_buffer_ble, 0, MAX_STRING_LENGTH);
+//				queue_pop(&q_spi_rx);
+//				APP_UpdateTX(output_buffer_ble, MAX_STRING_LENGTH);
+//			}
+//			GPIO_SetBits(BLE_IRQ);
+//			
+//			DMA_CH_SPI_TX->CMAR = (uint32_t)output_buffer_spi[0];
+//			DMA_CH_SPI_TX->CNDTR = (uint32_t)MAX_STRING_LENGTH;
+//			
+//			DMA_CH_SPI_TX->CCR_b.EN = SET;
+//			DMA_CH_SPI_RX->CCR_b.EN = SET;
+//		}
+		
+		if(spi_transmit_enabled == SET)
 		{
-			memset(output_buffer_spi, 0, MAX_STRING_LENGTH);
-			queue_get_front(&q_ble_rx, output_buffer_spi, 0, MAX_STRING_LENGTH);
-			queue_pop(&q_ble_rx);
-			
-			for(int i = 0; i < MAX_STRING_LENGTH; i++)
+			if(!queue_isempty(&q_ble_rx))
 			{
-				printf("%c", output_buffer_spi[i]);
+				memset(output_buffer_spi, 0, MAX_STRING_LENGTH);
+				queue_get_front(&q_ble_rx, output_buffer_spi, 0, MAX_STRING_LENGTH);
+				queue_pop(&q_ble_rx);
+				
+				printf("Notify received:");
+				for(int i = 0; i < MAX_STRING_LENGTH; i++)
+				{
+					printf("%c", output_buffer_spi[i]);
+				}
+				printf("\r\n");
+				GPIO_SetBits(BLE_IRQ);
+				
+				DMA_CH_SPI_TX->CMAR = (uint32_t)output_buffer_spi[0];
+				DMA_CH_SPI_TX->CNDTR = (uint32_t)MAX_STRING_LENGTH;
+				
+				DMA_CH_SPI_TX->CCR_b.EN = SET;
+				DMA_CH_SPI_RX->CCR_b.EN = SET;
 			}
+		}
+		if(spi_receive_enabled == SET)
+		{
 			if(!queue_isempty(&q_spi_rx))
 			{
 				memset(output_buffer_ble, 0, MAX_STRING_LENGTH);
 				queue_get_front(&q_spi_rx, output_buffer_ble, 0, MAX_STRING_LENGTH);
 				queue_pop(&q_spi_rx);
 				APP_UpdateTX(output_buffer_ble, MAX_STRING_LENGTH);
+				printf("Notify sent:");
+				for(int i = 0; i < MAX_STRING_LENGTH; i++)
+				{
+					printf("%c", output_buffer_ble[i]);
+				}
+				printf("\r\n");
+				memset(input_buffer_spi, 0, MAX_STRING_LENGTH);
+				DMA_CH_SPI_RX->CCR_b.EN = SET;
+				DMA_CH_SPI_TX->CCR_b.EN = SET;
 			}
-			GPIO_SetBits(BLE_IRQ);
-			
-			DMA_CH_SPI_TX->CMAR = (uint32_t)output_buffer_spi[0];
-			DMA_CH_SPI_TX->CNDTR = (uint32_t)MAX_STRING_LENGTH;
-			
-			DMA_CH_SPI_TX->CCR_b.EN = SET;
-			DMA_CH_SPI_RX->CCR_b.EN = SET;
 		}
-		else if(!queue_isempty(&q_ble_rx) && queue_isempty(&q_spi_rx))
-		{
-			memset(output_buffer_spi, 0, MAX_STRING_LENGTH);
-			queue_get_front(&q_ble_rx, output_buffer_spi, 0, MAX_STRING_LENGTH);
-			queue_pop(&q_ble_rx);
-			
-			printf("Notify received:");
-			for(int i = 0; i < MAX_STRING_LENGTH; i++)
-			{
-				printf("%c", output_buffer_spi[i]);
-			}
-			printf("\r\n");
-			GPIO_SetBits(BLE_IRQ);
-			
-			DMA_CH_SPI_TX->CMAR = (uint32_t)output_buffer_spi[0];
-			DMA_CH_SPI_TX->CNDTR = (uint32_t)MAX_STRING_LENGTH;
-			
-			DMA_CH_SPI_TX->CCR_b.EN = SET;
-			DMA_CH_SPI_RX->CCR_b.EN = SET;
-			//queue_push(&q_spi_rx, (uint8_t*)"Blablabla", MAX_STRING_LENGTH);
-		}
-		else if(queue_isempty(&q_ble_rx) && !queue_isempty(&q_spi_rx))
-		{
-			memset(output_buffer_ble, 0, MAX_STRING_LENGTH);
-			queue_get_front(&q_spi_rx, output_buffer_ble, 0, MAX_STRING_LENGTH);
-			queue_pop(&q_spi_rx);
-			APP_UpdateTX(output_buffer_ble, MAX_STRING_LENGTH);
-			printf("Notify sent:");
-			for(int i = 0; i < MAX_STRING_LENGTH; i++)
-			{
-				printf("%c", output_buffer_ble[i]);
-			}
-			printf("\r\n");
-			memset(input_buffer_spi, 0, MAX_STRING_LENGTH);
-			DMA_CH_SPI_RX->CCR_b.EN = SET;
-			DMA_CH_SPI_TX->CCR_b.EN = SET;
-		}
-		
-	if(DMA_CH_SPI_TX->CCR_b.EN == RESET && DMA_CH_SPI_RX->CCR_b.EN == RESET)
+	else
 	{
-		//memset(output_buffer_spi, 0, MAX_STRING_LENGTH);
-		memset(input_buffer_spi, 0, MAX_STRING_LENGTH);
-		DMA_CH_SPI_TX->CCR_b.EN = SET;
-		DMA_CH_SPI_RX->CCR_b.EN = SET;
+		if(DMA_CH_SPI_TX->CCR_b.EN == RESET && DMA_CH_SPI_RX->CCR_b.EN == RESET)
+		{
+			//memset(output_buffer_spi, 0, MAX_STRING_LENGTH);
+			memset(input_buffer_spi, 0, MAX_STRING_LENGTH);
+			DMA_CH_SPI_TX->CCR_b.EN = SET;
+			DMA_CH_SPI_RX->CCR_b.EN = SET;
+		}
 	}
 }
 //
@@ -405,10 +413,10 @@ void SPI_Slave_Configuration(void)
 //  SPI_RxFifoInterruptLevelConfig(SPI_FIFO_LEV_1);
 	
   /* Enable the DMA Interrupt */
-//  NVIC_InitStructure.NVIC_IRQChannel = SPI_IRQn;
-//  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = LOW_PRIORITY;
-//  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-//  NVIC_Init(&NVIC_InitStructure); 
+  NVIC_InitStructure.NVIC_IRQChannel = SPI_IRQn;
+  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = LOW_PRIORITY;
+  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+  NVIC_Init(&NVIC_InitStructure); 
 
 	SysCtrl_PeripheralClockCmd(CLOCK_PERIPH_DMA, ENABLE);
 
@@ -421,7 +429,7 @@ void SPI_Slave_Configuration(void)
   DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;    
   DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Byte;
   DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_Byte;
-  DMA_InitStructure.DMA_Mode = DMA_Mode_Circular;
+  DMA_InitStructure.DMA_Mode = DMA_Mode_Normal;
   DMA_InitStructure.DMA_Priority = DMA_Priority_Medium;
   DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;  
   DMA_Init(DMA_CH_SPI_TX, &DMA_InitStructure);
