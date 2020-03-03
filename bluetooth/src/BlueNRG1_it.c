@@ -172,6 +172,9 @@ void SPI_Handler(void)
 /**
   * @brief 	Обработка прерывания по DMA SPI
   */
+volatile bool not_empty = false;
+volatile uint8_t j_count = 0;
+volatile uint8_t msg[3] = {0};
 void DMA_Callback(void)
 {
 			/* Check DMA_CH_UART_TX Transfer Complete interrupt */
@@ -185,14 +188,31 @@ void DMA_Callback(void)
 		if(DMA_GetFlagStatus(DMA_CH_SPI_RX_IT_TC))
 		{
 			DMA_ClearFlag(DMA_CH_SPI_RX_IT_TC);
-			spi_eor = SET;
-			if(APP_FLAG(CONNECTED) 
+			not_empty = false;
+			j_count = 0;
+			for(int i = 0; i < MAX_STRING_LENGTH; i++)
+				if(input_buffer_spi[i] != 0)
+				{
+					not_empty = true;
+					msg[j_count++] = input_buffer_spi[i];
+					if(j_count >= 3)
+					{
+						if(strcmp((const char*)msg, "rec") == 0)
+							spi_receive_enabled = SET;
+						else if(strcmp((const char*)msg, "trn") == 0)
+							spi_transmit_enabled = SET;
+					}
+				}
+			if(APP_FLAG(CONNECTED) && not_empty
 				&& APP_FLAG(NOTIFICATIONS_ENABLED)
 				&& APP_FLAG(OTHER_ATTR_MODIFIED)
 				)
 				{
-					queue_push(&q_spi_rx, input_buffer_spi, bytes_to_receive);
-					memset(input_buffer_spi, 0, MAX_STRING_LENGTH);
+					if(spi_receive_enabled == SET)
+					{
+						queue_push(&q_spi_rx, input_buffer_spi, bytes_to_receive);
+						memset(input_buffer_spi, 0, MAX_STRING_LENGTH);
+					}
 				}
 			DMA_CH_SPI_TX->CCR_b.EN = RESET;
 			DMA_CH_SPI_RX->CCR_b.EN = RESET;
