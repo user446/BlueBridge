@@ -626,12 +626,12 @@ ARM Macro Assembler    Page 10
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
 erwork --depend=l452ceu\startup_stm32l452xx.d -ol452ceu\startup_stm32l452xx.o -
-I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452ceu\MDK-ARM\
-RTE\_l452ceu" -IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include -IC:\Kei
-l_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Includ
-e --predefine="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 522" --pr
-edefine="_RTE_ SETA 1" --predefine="STM32L452xx SETA 1" --list=startup_stm32l45
-2xx.lst startup_stm32l452xx.s
+I"D:\Saved Projects\bluetooth_dongle\bluenrg_target\BlueBridge\l452_client\MDK-
+ARM\RTE\_l452ceu" -IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include -IC:
+\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\In
+clude --predefine="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 522" 
+--predefine="_RTE_ SETA 1" --predefine="STM32L452xx SETA 1" --list=startup_stm3
+2l452xx.lst startup_stm32l452xx.s
 
 
 

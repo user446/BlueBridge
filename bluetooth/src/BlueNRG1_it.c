@@ -31,6 +31,7 @@
 #include "queue.h"
 #include "app_state.h"
 #include "string.h"
+#include "main.h"
 
 /** @addtogroup BlueNRG1_StdPeriph_Examples
   * @{
@@ -75,7 +76,6 @@ extern uint8_t output_buffer_spi[128];
 
 extern volatile  uint8_t inbuffer_idx;
 extern volatile  uint8_t outbuffer_idx;
-extern const uint32_t BLE_IRQ;
 
 extern Queue q_ble_rx;
 extern Queue q_spi_rx;
@@ -188,14 +188,16 @@ void DMA_Callback(void)
 		if(DMA_GetFlagStatus(DMA_CH_SPI_RX_IT_TC))
 		{
 			DMA_ClearFlag(DMA_CH_SPI_RX_IT_TC);
+			#if MANAGEMENT_FLAGS
 			not_empty = false;
 			j_count = 0;
+			memset(msg, 0, 3);
 			for(int i = 0; i < MAX_STRING_LENGTH; i++)
 				if(input_buffer_spi[i] != 0)
 				{
 					not_empty = true;
-					msg[j_count++] = input_buffer_spi[i];
-					if(j_count >= 3)
+					msg[(j_count++)%3] = input_buffer_spi[i];
+					if(j_count%3 == 0)
 					{
 						if(strcmp((const char*)msg, "rec") == 0)
 							spi_receive_enabled = SET;
@@ -203,16 +205,24 @@ void DMA_Callback(void)
 							spi_transmit_enabled = SET;
 					}
 				}
+			#else
+				not_empty = true;
+			#endif
 			if(APP_FLAG(CONNECTED) && not_empty
 				&& APP_FLAG(NOTIFICATIONS_ENABLED)
 				&& APP_FLAG(OTHER_ATTR_MODIFIED)
 				)
 				{
+					#if MANAGEMENT_FLAGS
 					if(spi_receive_enabled == SET)
 					{
+					#endif
 						queue_push(&q_spi_rx, input_buffer_spi, bytes_to_receive);
-						memset(input_buffer_spi, 0, MAX_STRING_LENGTH);
+						//memset(input_buffer_spi, 0, MAX_STRING_LENGTH);
+					#if MANAGEMENT_FLAGS
 					}
+					#endif
+					memset(input_buffer_spi, 0, MAX_STRING_LENGTH);
 				}
 			DMA_CH_SPI_TX->CCR_b.EN = RESET;
 			DMA_CH_SPI_RX->CCR_b.EN = RESET;

@@ -45,33 +45,21 @@
 #include "throughput.h"
 #include "SDK_EVAL_Config.h"
 #include "queue.h"
-
-#if CLIENT
-#include "Throughput_client_config.h"
-#define SPI_IN_Pin	GPIO_Pin_3
-#define SPI_OUT_Pin	GPIO_Pin_2
-#define SPI_CS_Pin	GPIO_Pin_11
-#define SPI_CLK_Pin	GPIO_Pin_8
-
-const uint32_t BLE_IRQ = GPIO_Pin_6;
-#else
-#include "Throughput_server_config.h"
-#define SPI_IN_Pin	GPIO_Pin_3
-#define SPI_OUT_Pin	GPIO_Pin_2
-#define SPI_CS_Pin	GPIO_Pin_1
-#define SPI_CLK_Pin	GPIO_Pin_0
-
-const uint32_t BLE_IRQ = GPIO_Pin_6;
-#endif
-
-#include "queue.h"
 #include "messaging.h"
+#include "main.h"
 
 /* Private typedef -----------------------------------------------------------*/
 
 /* Private define ------------------------------------------------------------*/
 #define BLE_THROUGHPUT_VERSION_STRING "1.0.0" 
 #define BUFF_SIZE                   	(10)
+
+#if CLIENT
+#include "Throughput_client_config.h"
+#else
+#include "Throughput_server_config.h"
+#endif
+
 /* Private macro -------------------------------------------------------------*/
 extern uint16_t connection_handle;
 /* Private variables ---------------------------------------------------------*/
@@ -83,7 +71,7 @@ uint8_t input_buffer_spi[MAX_STRING_LENGTH] = {0};
 uint8_t output_buffer_spi[MAX_STRING_LENGTH] = {0};
 uint8_t output_buffer_ble[MAX_STRING_LENGTH] = {0};
 
-uint8_t test_buffer[MAX_STRING_LENGTH] = {0};
+uint8_t test_buffer[MAX_STRING_LENGTH] = "clown world clown world clown";
 
 uint8_t bluenrg_stack = 0;
 
@@ -163,7 +151,7 @@ int main(void)
 	
 	printf("Rx queues initialized\r\n");
 	
-	Timer_Set(&t_updater, CLOCK_SECOND/1000);
+	Timer_Set(&t_updater, CLOCK_SECOND);
 	bluenrg_stack = BLE_STACK_CONFIGURATION;
 	
 	GPIO_SetBits(BLE_IRQ);         
@@ -263,6 +251,12 @@ void Exchange_v2(void)
 	{
 		GPIO_ResetBits(BLE_IRQ);
 	}
+	if(Timer_Expired(&t_updater) && DMA_CH_SPI_TX->CCR_b.EN == SET && DMA_CH_SPI_RX->CCR_b.EN == SET)
+	{
+		DMA_CH_SPI_TX->CCR_b.EN = RESET;
+		DMA_CH_SPI_RX->CCR_b.EN = RESET;
+		//таймаут вышел
+	}
 	
 //		if(!queue_isempty(&q_ble_rx) && !queue_isempty(&q_spi_rx))
 //		{
@@ -289,59 +283,69 @@ void Exchange_v2(void)
 //			DMA_CH_SPI_TX->CCR_b.EN = SET;
 //			DMA_CH_SPI_RX->CCR_b.EN = SET;
 //		}
-		
+		#if MANAGEMENT_FLAGS
 		if(spi_transmit_enabled == SET)
 		{
+		#endif
 			if(!queue_isempty(&q_ble_rx))
 			{
 				memset(output_buffer_spi, 0, MAX_STRING_LENGTH);
 				queue_get_front(&q_ble_rx, output_buffer_spi, 0, MAX_STRING_LENGTH);
 				queue_pop(&q_ble_rx);
 				
+				#if BLERX_TRACE
 				printf("Notify received:");
 				for(int i = 0; i < MAX_STRING_LENGTH; i++)
 				{
 					printf("%c", output_buffer_spi[i]);
 				}
 				printf("\r\n");
+				#endif
+				
 				GPIO_SetBits(BLE_IRQ);
-				
-				DMA_CH_SPI_TX->CMAR = (uint32_t)output_buffer_spi[0];
-				DMA_CH_SPI_TX->CNDTR = (uint32_t)MAX_STRING_LENGTH;
-				
-				DMA_CH_SPI_TX->CCR_b.EN = SET;
-				DMA_CH_SPI_RX->CCR_b.EN = SET;
 			}
+		#if MANAGEMENT_FLAGS
 		}
 		if(spi_receive_enabled == SET)
 		{
+		#endif
+			//queue_push(&q_spi_rx, test_buffer, MAX_STRING_LENGTH);
 			if(!queue_isempty(&q_spi_rx))
 			{
-				memset(output_buffer_ble, 0, MAX_STRING_LENGTH);
-				queue_get_front(&q_spi_rx, output_buffer_ble, 0, MAX_STRING_LENGTH);
-				queue_pop(&q_spi_rx);
-				APP_UpdateTX(output_buffer_ble, MAX_STRING_LENGTH);
+ 				memset(output_buffer_ble, 0, MAX_STRING_LENGTH);
+ 				queue_get_front(&q_spi_rx, output_buffer_ble, 0, MAX_STRING_LENGTH);
+ 				queue_pop(&q_spi_rx);
+    		APP_UpdateTX(output_buffer_ble, MAX_STRING_LENGTH);
+				
+				#if BLETX_TRACE
 				printf("Notify sent:");
 				for(int i = 0; i < MAX_STRING_LENGTH; i++)
 				{
 					printf("%c", output_buffer_ble[i]);
 				}
 				printf("\r\n");
+				#endif
+				
 				memset(input_buffer_spi, 0, MAX_STRING_LENGTH);
-				DMA_CH_SPI_RX->CCR_b.EN = SET;
-				DMA_CH_SPI_TX->CCR_b.EN = SET;
 			}
+		#if MANAGEMENT_FLAGS
 		}
-	else
-	{
+		#endif
 		if(DMA_CH_SPI_TX->CCR_b.EN == RESET && DMA_CH_SPI_RX->CCR_b.EN == RESET)
 		{
 			//memset(output_buffer_spi, 0, MAX_STRING_LENGTH);
 			memset(input_buffer_spi, 0, MAX_STRING_LENGTH);
+			
+			DMA_CH_SPI_RX->CMAR = (uint32_t)&input_buffer_spi[0];
+			DMA_CH_SPI_RX->CNDTR = (uint32_t)MAX_STRING_LENGTH;
+			
+			DMA_CH_SPI_TX->CMAR = (uint32_t)&output_buffer_spi[0];
+			DMA_CH_SPI_TX->CNDTR = (uint32_t)MAX_STRING_LENGTH;
+			
 			DMA_CH_SPI_TX->CCR_b.EN = SET;
 			DMA_CH_SPI_RX->CCR_b.EN = SET;
+			Timer_Restart(&t_updater);
 		}
-	}
 }
 //
 
@@ -397,7 +401,7 @@ void SPI_Slave_Configuration(void)
   SPI_StructInit(&SPI_InitStructure);
   SPI_InitStructure.SPI_Mode = SPI_Mode_Slave;
   SPI_InitStructure.SPI_DataSize = SPI_DataSize_8b ;
-  SPI_InitStructure.SPI_CPOL = SPI_CPOL_High;
+  SPI_InitStructure.SPI_CPOL = SPI_CPOL_Low;
   SPI_InitStructure.SPI_CPHA = SPI_CPHA_2Edge;
   SPI_Init(&SPI_InitStructure);
 
@@ -414,7 +418,7 @@ void SPI_Slave_Configuration(void)
 	
   /* Enable the DMA Interrupt */
   NVIC_InitStructure.NVIC_IRQChannel = SPI_IRQn;
-  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = LOW_PRIORITY;
+  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = MED_PRIORITY;
   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
   NVIC_Init(&NVIC_InitStructure); 
 
@@ -422,14 +426,14 @@ void SPI_Slave_Configuration(void)
 
   /* Configure DMA SPI TX channel */
   DMA_InitStructure.DMA_PeripheralBaseAddr = SPI_DR_BASE_ADDR;
-  DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)output_buffer_spi;  
+  DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)&output_buffer_spi[0];  
   DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralDST;
   DMA_InitStructure.DMA_BufferSize = (uint32_t)MAX_STRING_LENGTH;  
   DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
   DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;    
   DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Byte;
   DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_Byte;
-  DMA_InitStructure.DMA_Mode = DMA_Mode_Normal;
+  DMA_InitStructure.DMA_Mode = DMA_Mode_Circular;
   DMA_InitStructure.DMA_Priority = DMA_Priority_Medium;
   DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;  
   DMA_Init(DMA_CH_SPI_TX, &DMA_InitStructure);
@@ -437,10 +441,11 @@ void SPI_Slave_Configuration(void)
     
   /* Configure DMA SPI RX channel */
 	DMA_InitStructure.DMA_PeripheralBaseAddr = SPI_DR_BASE_ADDR;
-  DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)input_buffer_spi;  
+  DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)&input_buffer_spi[0];  
   DMA_InitStructure.DMA_BufferSize = (uint32_t)MAX_STRING_LENGTH;  
   DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralSRC;
   DMA_InitStructure.DMA_Mode = DMA_Mode_Circular;
+	DMA_InitStructure.DMA_Priority = DMA_Priority_High;
   DMA_Init(DMA_CH_SPI_RX, &DMA_InitStructure);
   DMA_Cmd(DMA_CH_SPI_RX, ENABLE);
   

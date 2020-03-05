@@ -83,8 +83,7 @@ void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
 	if(hspi->Instance == hspi1.Instance)
 	{
 		exchanged = true;
-		if(strlen((char*)spi_receive_buff) != 0)
-			queue_push(&q_from_spirx, spi_receive_buff, MAX_STRING_LENGTH);
+		queue_push(&q_from_spirx, spi_receive_buff, MAX_STRING_LENGTH);
 		HAL_GPIO_WritePin(SPI_EN_GPIO_Port, SPI_EN_Pin, GPIO_PIN_SET);
 	}
 }
@@ -129,7 +128,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 //
 void Connection_RecieveCallback(uint8_t* buffer, uint32_t Len)
 {
-	if(Len > 0 && strlen((char*)buffer) != 0)
+	if(Len > 0)
 		queue_push(&q_from_usbrx, buffer, Len);
 }
 //

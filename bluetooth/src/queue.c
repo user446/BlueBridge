@@ -52,7 +52,9 @@ void queue_pop(struct Queue* q)
 		struct Node* tmp = q->front;
 		q->front = q->front->next;
 		if(q->front == NULL)
+		{
 			q->front->next = NULL;
+		}
 		free(tmp);
 	}
 }
