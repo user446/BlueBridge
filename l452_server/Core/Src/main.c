@@ -36,6 +36,11 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
+typedef enum spi_transer_stages{
+  spi_stage_idle = 0,
+  spi_stage_accept_sending,
+  spi_stage_data_receiving
+} ESpiTransferStage;
 
 /* USER CODE END PTD */
 
@@ -53,6 +58,8 @@
 /* USER CODE BEGIN PV */
 Queue q_from_spirx;
 Queue q_from_usbrx;
+
+ESpiTransferStage geSpiTransferStage = spi_stage_idle;
 
 volatile bool exchanged = true;
 volatile bool uart_received = true;
@@ -73,43 +80,57 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
-{
-	if(hspi->Instance == hspi1.Instance)
-	{
-		exchanged = true;
-		queue_push(&q_from_spirx, spi_receive_buff, MAX_STRING_LENGTH);
-		HAL_GPIO_WritePin(SPI_CS_GPIO_Port, SPI_CS_Pin, GPIO_PIN_SET);
+void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi){
+
+	if(hspi->Instance == hspi1.Instance){
+
+    HAL_GPIO_WritePin(SPI_CS_GPIO_Port, SPI_CS_Pin, GPIO_PIN_SET);
+
+    switch (geSpiTransferStage){
+
+      case spi_stage_accept_sending:
+        
+        HAL_GPIO_WritePin(SPI_CS_GPIO_Port, SPI_CS_Pin, GPIO_PIN_RESET);
+        
+        memset(spi_receive_buff, 0, sizeof(spi_receive_buff[0])*MAX_STRING_LENGTH);
+			  memset(spi_transmit_buff, 0, sizeof(spi_transmit_buff[0])*MAX_STRING_LENGTH);
+        
+        HAL_SPI_TransmitReceive_DMA(&hspi1, spi_transmit_buff, spi_receive_buff, MAX_STRING_LENGTH);
+				// TODO: if (result != HAL_OK) Error_Handler();
+				
+        geSpiTransferStage = spi_stage_data_receiving;
+      break;
+
+      case spi_stage_data_receiving:
+        queue_push(&q_from_spirx, spi_receive_buff, MAX_STRING_LENGTH);
+        geSpiTransferStage = spi_stage_idle;
+      break;
+    }
 	}
 }
 //
 
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
-{
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
+
 	uart_received = true;
 	queue_push(&q_from_usbrx, usb_receive_buff, MAX_STRING_LENGTH);
 }
 //
 
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
-{
-	if(GPIO_Pin == BLE_IRQ_Pin)
-	{
-		if(HAL_GPIO_ReadPin(BLE_IRQ_GPIO_Port, BLE_IRQ_Pin) == GPIO_PIN_SET && exchanged && !while_lock)
-		{
-			memset(spi_transmit_buff, 0, sizeof(spi_transmit_buff[0])*MAX_STRING_LENGTH);
-			memset(spi_receive_buff, 0, sizeof(spi_receive_buff[0])*MAX_STRING_LENGTH);
-			queue_get_front(&q_from_usbrx, spi_transmit_buff, 0,  queue_get_frontl(&q_from_usbrx));
-			queue_pop(&q_from_usbrx);
-			HAL_GPIO_WritePin(SPI_CS_GPIO_Port, SPI_CS_Pin, GPIO_PIN_RESET);
-			exchanged = false;
-			if(HAL_SPI_TransmitReceive_DMA(&hspi1, spi_transmit_buff, spi_receive_buff, MAX_STRING_LENGTH) != HAL_OK)
-				{
-					Error_Handler();
-				}
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
+
+	if(GPIO_Pin == BLE_IRQ_Pin){
+
+		if(HAL_GPIO_ReadPin(BLE_IRQ_GPIO_Port, BLE_IRQ_Pin) == GPIO_PIN_SET){
+
+      HAL_GPIO_WritePin(SPI_CS_GPIO_Port, SPI_CS_Pin, GPIO_PIN_RESET);
+      
+      spi_transmit_buff[0] = 0xAA;			
+      HAL_SPI_TransmitReceive_DMA(&hspi1, spi_transmit_buff, spi_receive_buff, 1);			
 		}
 	}
 }
+
 //
 /* USER CODE END 0 */
 
@@ -158,40 +179,36 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
-  {
-//		if(HAL_GPIO_ReadPin(BLE_IRQ_GPIO_Port, BLE_IRQ_Pin) == GPIO_PIN_SET)
-//			__nop();
-		
-		if(exchanged == true)
-			{
-				if(!queue_isempty(&q_from_usbrx))
-					{
-						while_lock = true;
-						memset(spi_transmit_buff, 0, sizeof(spi_transmit_buff[0])*MAX_STRING_LENGTH);
-						queue_get_front(&q_from_usbrx, spi_transmit_buff, 0,  MAX_STRING_LENGTH);
-						queue_pop(&q_from_usbrx);
-						HAL_GPIO_WritePin(SPI_CS_GPIO_Port, SPI_CS_Pin, GPIO_PIN_RESET);
-						exchanged = false;
-						if(HAL_SPI_TransmitReceive_DMA(&hspi1, spi_transmit_buff, spi_receive_buff, MAX_STRING_LENGTH) != HAL_OK)
-							{
-								Error_Handler();
-							}
-						while_lock = false;
-					}
-			}
-		if(!queue_isempty(&q_from_spirx) /*&& usb_transmit == true*/)
-			{
-				memset(usb_transmit_buff, 0, MAX_STRING_LENGTH);
-				queue_get_front(&q_from_spirx, usb_transmit_buff, 0,  MAX_STRING_LENGTH);
-				queue_pop(&q_from_spirx);
-				usb_transmit_buff[MAX_STRING_LENGTH-1] = '\n';
-				usb_transmit_buff[MAX_STRING_LENGTH-2] = '\r';
-				usb_transmit_buff[MAX_STRING_LENGTH-3] = '#';
-				HAL_UART_Transmit_DMA(&huart1, usb_transmit_buff, MAX_STRING_LENGTH);
-			}
-		if(uart_received)
-		{
+  while (1){
+    if( !queue_isempty(&q_from_usbrx) ){
+
+      memset(spi_transmit_buff, 0, sizeof(spi_transmit_buff[0])*MAX_STRING_LENGTH);
+
+      queue_get_front(&q_from_usbrx, spi_transmit_buff, 0,  MAX_STRING_LENGTH);
+      queue_pop(&q_from_usbrx);
+
+      HAL_GPIO_WritePin(SPI_CS_GPIO_Port, SPI_CS_Pin, GPIO_PIN_RESET);
+      HAL_SPI_TransmitReceive_DMA(&hspi1, spi_transmit_buff, spi_receive_buff, MAX_STRING_LENGTH);
+      // TODO:  if( result != HAL_OK) Error_Handler();
+          
+    }
+			
+		if( !queue_isempty(&q_from_spirx) ){
+
+      memset(usb_transmit_buff, 0, MAX_STRING_LENGTH);
+
+      queue_get_front(&q_from_spirx, usb_transmit_buff, 0,  MAX_STRING_LENGTH);
+      queue_pop(&q_from_spirx);
+
+      usb_transmit_buff[MAX_STRING_LENGTH-1] = '\n';
+      usb_transmit_buff[MAX_STRING_LENGTH-2] = '\r';
+      usb_transmit_buff[MAX_STRING_LENGTH-3] = '#';
+        
+      HAL_UART_Transmit_DMA(&huart1, usb_transmit_buff, MAX_STRING_LENGTH);
+    }
+
+		if(uart_received){
+      
 			memset(usb_receive_buff, 0, sizeof(usb_receive_buff[0])*MAX_STRING_LENGTH);
 			HAL_UART_Receive_DMA(&huart1, usb_receive_buff, MAX_STRING_LENGTH);
 			uart_received = false;
